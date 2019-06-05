@@ -207,16 +207,16 @@
             </objects>
             <point key="canvasLocation" x="2386" y="119"/>
         </scene>
-        <!--View Controller-->
+        <!--Location Controller-->
         <scene sceneID="rAQ-Oh-V7d">
             <objects>
-                <viewController id="cdk-sP-aZz" sceneMemberID="viewController">
+                <viewController id="cdk-sP-aZz" customClass="LocationController" customModule="RemindersApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xxR-AL-qzy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="oK5-Iv-KBu">
-                                <rect key="frame" x="0.0" y="88" width="414" height="448"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="298.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="EbT-La-qPL" detailTextLabel="QVn-zx-myy" style="IBUITableViewCellStyleSubtitle" id="vzH-X6-Hc2">
@@ -246,42 +246,55 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alert me when:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBy-S6-LyD">
-                                <rect key="frame" x="16" y="552" width="116" height="21"/>
+                                <rect key="frame" x="16" y="432.5" width="116" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Mf-MK-6TK">
+                                <rect key="frame" x="128.5" y="394.5" width="157" height="22"/>
+                                <state key="normal" title=" Current Location" image="icn_location">
+                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dgn-He-x6U">
-                                <rect key="frame" x="247" y="548.5" width="151" height="29"/>
+                                <rect key="frame" x="247" y="429" width="151" height="29"/>
                                 <segments>
                                     <segment title="Arriving"/>
                                     <segment title="Departing"/>
                                 </segments>
                             </segmentedControl>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Bwa-mf-4QV">
-                                <rect key="frame" x="0.0" y="588" width="414" height="274"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Bwa-mf-4QV">
+                                <rect key="frame" x="0.0" y="469" width="414" height="393"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" red="0.28614217040000001" green="0.64182770249999999" blue="0.75526386499999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="tiM-fF-LS0" firstAttribute="trailing" secondItem="Bwa-mf-4QV" secondAttribute="trailing" id="9hq-u5-tob"/>
-                            <constraint firstItem="dgn-He-x6U" firstAttribute="centerY" secondItem="gBy-S6-LyD" secondAttribute="centerY" id="GFU-e5-0hW"/>
+                            <constraint firstItem="gBy-S6-LyD" firstAttribute="top" secondItem="8Mf-MK-6TK" secondAttribute="bottom" constant="16" id="DUH-Qh-3dK"/>
+                            <constraint firstItem="tiM-fF-LS0" firstAttribute="trailing" secondItem="dgn-He-x6U" secondAttribute="trailing" constant="16" id="GyR-6i-XfA"/>
                             <constraint firstItem="tiM-fF-LS0" firstAttribute="trailing" secondItem="oK5-Iv-KBu" secondAttribute="trailing" id="KdH-WJ-W5u"/>
-                            <constraint firstItem="tiM-fF-LS0" firstAttribute="trailing" secondItem="dgn-He-x6U" secondAttribute="trailing" constant="16" id="MSN-Zi-Ov9"/>
+                            <constraint firstItem="Bwa-mf-4QV" firstAttribute="top" secondItem="dgn-He-x6U" secondAttribute="bottom" constant="12" id="Lzg-T9-OXH"/>
                             <constraint firstItem="tiM-fF-LS0" firstAttribute="bottom" secondItem="Bwa-mf-4QV" secondAttribute="bottom" id="QCe-6h-lOn"/>
-                            <constraint firstItem="oK5-Iv-KBu" firstAttribute="height" secondItem="xxR-AL-qzy" secondAttribute="height" multiplier="1:2" id="X9G-iM-Zsy"/>
+                            <constraint firstItem="8Mf-MK-6TK" firstAttribute="top" secondItem="oK5-Iv-KBu" secondAttribute="bottom" constant="8" id="UEV-yJ-pih"/>
+                            <constraint firstItem="oK5-Iv-KBu" firstAttribute="height" secondItem="xxR-AL-qzy" secondAttribute="height" multiplier="1:3" id="X9G-iM-Zsy"/>
                             <constraint firstItem="Bwa-mf-4QV" firstAttribute="leading" secondItem="tiM-fF-LS0" secondAttribute="leading" id="ciw-Am-d8h"/>
                             <constraint firstItem="oK5-Iv-KBu" firstAttribute="leading" secondItem="tiM-fF-LS0" secondAttribute="leading" id="hNF-zI-40w"/>
                             <constraint firstItem="oK5-Iv-KBu" firstAttribute="top" secondItem="tiM-fF-LS0" secondAttribute="top" id="hPh-dr-fzD"/>
-                            <constraint firstItem="gBy-S6-LyD" firstAttribute="leading" secondItem="tiM-fF-LS0" secondAttribute="leading" constant="16" id="pB8-l6-kCe"/>
-                            <constraint firstItem="gBy-S6-LyD" firstAttribute="top" secondItem="oK5-Iv-KBu" secondAttribute="bottom" constant="16" id="zud-FE-Vy8"/>
+                            <constraint firstItem="dgn-He-x6U" firstAttribute="centerY" secondItem="gBy-S6-LyD" secondAttribute="centerY" id="hyq-VJ-oCj"/>
+                            <constraint firstItem="8Mf-MK-6TK" firstAttribute="centerX" secondItem="xxR-AL-qzy" secondAttribute="centerX" id="rRk-9F-bsf"/>
+                            <constraint firstItem="gBy-S6-LyD" firstAttribute="leading" secondItem="tiM-fF-LS0" secondAttribute="leading" constant="16" id="smg-xW-24m"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tiM-fF-LS0"/>
                     </view>
                     <navigationItem key="navigationItem" id="6kO-NA-qng">
                         <barButtonItem key="rightBarButtonItem" title="Save Location" id="VKq-BX-1r2"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="alertingSegmentedControl" destination="dgn-He-x6U" id="1lH-XG-6jz"/>
+                        <outlet property="mapView" destination="Bwa-mf-4QV" id="r4e-lM-4Ix"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5yO-ZQ-fwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
