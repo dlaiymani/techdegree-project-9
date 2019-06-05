@@ -53,6 +53,7 @@ class LocationController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
     }
     
     // Check permission or request the current location
@@ -109,11 +110,30 @@ extension LocationController {
     // Adjust the map around the current location and display an annotation at this location
     func adjustMap(with coordinate: Coordinate) {
         let coordinate2D = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let region = MKCoordinateRegion.init(center: coordinate2D, latitudinalMeters: 2500, longitudinalMeters: 2500)
+        let region = MKCoordinateRegion.init(center: coordinate2D, latitudinalMeters: 500, longitudinalMeters: 500)
         
         mapView.setRegion(region, animated: true)
         let myAnnotation: MKPointAnnotation = MKPointAnnotation()
         myAnnotation.coordinate = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude);
         mapView.addAnnotation(myAnnotation)
+        mapView?.addOverlay(MKCircle(center: coordinate2D, radius: CLLocationDistance(exactly: 50.0)!))
+        
+    }
+    
+
+}
+
+// MARK: - MapView Delegate
+extension LocationController: MKMapViewDelegate {
+
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKCircle {
+            let circleRenderer = MKCircleRenderer(overlay: overlay)
+            circleRenderer.lineWidth = 1.0
+            circleRenderer.strokeColor = .purple
+            circleRenderer.fillColor = UIColor.purple.withAlphaComponent(0.3)
+            return circleRenderer
+        }
+        return MKOverlayRenderer(overlay: overlay)
     }
 }
