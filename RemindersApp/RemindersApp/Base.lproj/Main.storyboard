@@ -89,10 +89,10 @@
             </objects>
             <point key="canvasLocation" x="1603" y="119"/>
         </scene>
-        <!--View Controller-->
+        <!--Detail Controller-->
         <scene sceneID="w5x-Ov-EBP">
             <objects>
-                <viewController id="PD2-iM-4nS" sceneMemberID="viewController">
+                <viewController id="PD2-iM-4nS" customClass="DetailController" customModule="RemindersApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yhG-VW-VyZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -147,7 +147,7 @@
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ni8-k5-r4M">
                                 <rect key="frame" x="241" y="394" width="157" height="29"/>
                                 <segments>
-                                    <segment title="Recuring"/>
+                                    <segment title="Recurring"/>
                                     <segment title="Only Once"/>
                                 </segments>
                                 <color key="tintColor" red="0.28614217040000001" green="0.64182770249999999" blue="0.75526386499999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -179,11 +179,25 @@
                     <navigationItem key="navigationItem" id="mSj-OB-NPm">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="ZvL-aY-0cp">
                             <color key="tintColor" red="0.28614217040000001" green="0.64182770249999999" blue="0.75526386499999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="cancelTapped:" destination="PD2-iM-4nS" id="etc-y5-aVs"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="IyP-3O-beM">
                             <color key="tintColor" red="0.28614217040000001" green="0.64182770249999999" blue="0.75526386499999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="saveTapped:" destination="PD2-iM-4nS" id="EFb-fh-39s"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="locationButton" destination="92s-rl-qFr" id="jQq-1H-IuE"/>
+                        <outlet property="locationLabel" destination="svR-4C-iWQ" id="bOM-Or-eUd"/>
+                        <outlet property="mapView" destination="kFx-yf-RQ1" id="Iu5-SK-Dpf"/>
+                        <outlet property="notesTextView" destination="hVf-cE-t3K" id="ZAj-It-2we"/>
+                        <outlet property="recurrenceSegmentedControl" destination="ni8-k5-r4M" id="gdO-52-VzD"/>
+                        <outlet property="titleTextField" destination="rGl-Yf-Qqp" id="SdP-L3-VxR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lIq-Ys-Fev" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
