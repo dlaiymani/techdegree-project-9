@@ -11,20 +11,30 @@ import UIKit
 import CoreData
 import MapKit
 
-class DetailController: UIViewController {
+class DetailController: UITableViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var notesTextView: UITextView!
-    @IBOutlet weak var locationButton: UIButton!
-    @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var recurrenceSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var geofenceSwitch: UISwitch!
+ //   @IBOutlet weak var staticLocationLabel: UILabel!
     
+    var staticLocationLabel: UILabel!
+    var locationLabel: UILabel!
+    var cell: UITableViewCell!
+    
+    var staticLabelVerticalConstraint: NSLayoutConstraint!
+    var staticLabelLeadingConstraint: NSLayoutConstraint!
+    var staticLabelTopConstraint: NSLayoutConstraint!
+    
+    var locationLabelLeadingConstraint: NSLayoutConstraint!
+    var locationLabelBottomConstraint: NSLayoutConstraint!
+
     
     var managedObjectContext: NSManagedObjectContext!
 
     var coordinate = Coordinate(latitude: 0.0, longitude: 0.0)
-    var locationDescription = "📍 No Location"
+    var locationDescription = ""
     var update:Bool = false // true if a cell has been tapped in the Master Controller
     
     var reminder: Reminder? // The reminder to create or update
@@ -32,29 +42,74 @@ class DetailController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.title = Date().dateOfTheDay()
        
-        mapView.delegate = self
+        geofenceSwitch.isOn = false
         configureView()
+        
+        
         
     }
     
     
     func configureView() {
-        locationLabel.text = locationDescription
+        tableView.reloadData()
+
+        
+        if (coordinate.longitude == 0 && coordinate.latitude == 0) {
+            
+            staticLocationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
+            staticLocationLabel.text = "Location"
+            cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 2))
+            cell.contentView.addSubview(staticLocationLabel)
+            staticLocationLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+            locationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
+            locationLabel.text = locationDescription
+            locationLabel.textColor = .lightGray
+            cell?.contentView.addSubview(locationLabel)
+            locationLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+            staticLabelVerticalConstraint = NSLayoutConstraint(item: staticLocationLabel!, attribute: .centerY, relatedBy: .equal, toItem: cell.contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0)
+            staticLabelLeadingConstraint = NSLayoutConstraint(item: staticLocationLabel!, attribute: .leading, relatedBy: .equal, toItem: cell.contentView, attribute: .leadingMargin, multiplier: 1.0, constant: 0.0)
+            staticLabelTopConstraint = NSLayoutConstraint(item: staticLocationLabel!, attribute: .top, relatedBy: .equal, toItem: cell.contentView, attribute: .topMargin, multiplier: 1.0, constant: 8.0)
+            staticLabelVerticalConstraint.isActive = true
+            staticLabelLeadingConstraint.isActive = true
+            staticLabelTopConstraint.isActive = false
+            
+            locationLabel.isHidden = true
+            locationLabelLeadingConstraint = NSLayoutConstraint(item: locationLabel!, attribute: .leading, relatedBy: .equal, toItem: cell.contentView, attribute: .leadingMargin, multiplier: 1.0, constant: 0.0)
+            locationLabelBottomConstraint = NSLayoutConstraint(item: locationLabel!, attribute: .bottom, relatedBy: .equal, toItem: cell.contentView, attribute: .bottomMargin, multiplier: 1.0, constant: -8.0)
+            locationLabelBottomConstraint.isActive = true
+            locationLabelLeadingConstraint.isActive = true
+            
+        } else {
+            print(locationDescription)
+            locationLabel.isHidden = false
+
+            staticLabelVerticalConstraint.isActive = false
+            //staticLabelLeadingConstraint.isActive = false
+            staticLabelTopConstraint.isActive = true
+            
+            
+            
+            
+            view.layoutIfNeeded()
+            
+        }
         
         if let reminder = reminder {
             titleTextField.text = reminder.title
             
             // location info management
             locationLabel.text = reminder.locationDescription
-            if (reminder.latitude != 0.0 && reminder.longitude != 0.0) {
-                locationButton.setTitle(" Modify Location", for: .normal)
-            }
             self.coordinate = Coordinate(latitude: reminder.latitude, longitude: reminder.longitude)
-            //locationDescription = reminder.locationDescription
-            adjustMap(with: coordinate)
         }
+    }
+    
+    
+    @IBAction func geofenceSwitchToggled(_ sender: Any) {
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
     
     
@@ -94,38 +149,31 @@ class DetailController: UIViewController {
     // back from location controller
     @IBAction func unwindFromLocationController(_ segue: UIStoryboardSegue) {
         self.locationLabel.text = locationDescription
-        self.adjustMap(with: coordinate)
+        configureView()
+
     }
-}
-
-
-// MARK: - MapKit
-extension DetailController {
-    // Adjust the map around the current location and display an annotation at this location
-    func adjustMap(with coordinate: Coordinate) {
-        let coordinate2D = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let region = MKCoordinateRegion.init(center: coordinate2D, latitudinalMeters: 500, longitudinalMeters: 500)
-        
-        mapView.setRegion(region, animated: true)
-        let myAnnotation: MKPointAnnotation = MKPointAnnotation()
-        myAnnotation.coordinate = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude);
-        mapView.addAnnotation(myAnnotation)
-        mapView?.addOverlay(MKCircle(center: coordinate2D, radius: CLLocationDistance(exactly: 50.0)!))
-        
-    }
-}
-
-// MARK: - MapView Delegate
-extension DetailController: MKMapViewDelegate {
     
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if overlay is MKCircle {
-            let circleRenderer = MKCircleRenderer(overlay: overlay)
-            circleRenderer.lineWidth = 1.0
-            circleRenderer.strokeColor = .purple
-            circleRenderer.fillColor = UIColor.purple.withAlphaComponent(0.3)
-            return circleRenderer
+    
+    // MARK: - TableView delegate
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath.section == 2 && indexPath.row == 1) { // This is the cell to hide - change as you need
+            // Show or hide cell
+            if (self.geofenceSwitch.isOn) {
+                return 88; // Show the cell - adjust the height as you need
+            } else {
+                return 0; // Hide the cell
+            }
         }
-        return MKOverlayRenderer(overlay: overlay)
+        
+        if (indexPath.section == 0 && indexPath.row == 0) {
+            return 200
+        } else {
+            return 44
+        }
     }
+    
+    
 }
+
+
+
