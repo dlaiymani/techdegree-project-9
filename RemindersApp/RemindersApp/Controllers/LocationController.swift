@@ -92,7 +92,7 @@ class LocationController: UIViewController {
             let detailViewController = segue.destination as! DetailController
             if let coordinate = coordinate {
                 detailViewController.coordinate = coordinate
-                detailViewController.locationDescription = locationDescription
+                detailViewController.locationDescription = "📍 \(locationDescription)"
             }
         }
     }

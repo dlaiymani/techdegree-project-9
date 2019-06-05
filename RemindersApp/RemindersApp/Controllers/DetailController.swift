@@ -81,6 +81,7 @@ class DetailController: UIViewController {
         reminder.notes = notesTextView.text
         reminder.latitude = coordinate.latitude
         reminder.longitude = coordinate.longitude
+        reminder.locationDescription = locationDescription
         if recurrenceSegmentedControl.selectedSegmentIndex == 0 {
             reminder.recurrence = true
         } else {
@@ -92,7 +93,7 @@ class DetailController: UIViewController {
     
     // back from location controller
     @IBAction func unwindFromLocationController(_ segue: UIStoryboardSegue) {
-        self.locationLabel.text = "📍 \(locationDescription)"
+        self.locationLabel.text = locationDescription
         self.adjustMap(with: coordinate)
     }
 }
