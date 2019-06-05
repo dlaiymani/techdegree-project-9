@@ -13,6 +13,12 @@
 		AA4A4B7922A7A2280074C5A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA4A4B7722A7A2280074C5A3 /* LaunchScreen.storyboard */; };
 		AA4A4B8122A7A4C00074C5A3 /* MasterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B8022A7A4C00074C5A3 /* MasterController.swift */; };
 		AA4A4B8622A7A5860074C5A3 /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B8522A7A5860074C5A3 /* ReminderCell.swift */; };
+		AA4A4B8922A7B03C0074C5A3 /* Reminder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B8722A7B03C0074C5A3 /* Reminder.xcdatamodeld */; };
+		AA4A4B8C22A7B1200074C5A3 /* Reminder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B8A22A7B1200074C5A3 /* Reminder+CoreDataClass.swift */; };
+		AA4A4B8D22A7B1200074C5A3 /* Reminder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B8B22A7B1200074C5A3 /* Reminder+CoreDataProperties.swift */; };
+		AA4A4B9022A7B2B60074C5A3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B8F22A7B2B60074C5A3 /* CoreDataStack.swift */; };
+		AA4A4B9222A7B3310074C5A3 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B9122A7B3310074C5A3 /* DataSource.swift */; };
+		AA4A4B9422A7B38F0074C5A3 /* ReminderFetchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B9322A7B38F0074C5A3 /* ReminderFetchResultsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +30,12 @@
 		AA4A4B7A22A7A2280074C5A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA4A4B8022A7A4C00074C5A3 /* MasterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterController.swift; sourceTree = "<group>"; };
 		AA4A4B8522A7A5860074C5A3 /* ReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReminderCell.swift; path = RemindersApp/Views/ReminderCell.swift; sourceTree = SOURCE_ROOT; };
+		AA4A4B8822A7B03C0074C5A3 /* Reminder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Reminder.xcdatamodel; sourceTree = "<group>"; };
+		AA4A4B8A22A7B1200074C5A3 /* Reminder+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reminder+CoreDataClass.swift"; sourceTree = "<group>"; };
+		AA4A4B8B22A7B1200074C5A3 /* Reminder+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reminder+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		AA4A4B8F22A7B2B60074C5A3 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		AA4A4B9122A7B3310074C5A3 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		AA4A4B9322A7B38F0074C5A3 /* ReminderFetchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderFetchResultsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +68,7 @@
 		AA4A4B6D22A7A2260074C5A3 /* RemindersApp */ = {
 			isa = PBXGroup;
 			children = (
+				AA4A4B8E22A7B29E0074C5A3 /* Helpers */,
 				AA4A4B8422A7A5610074C5A3 /* Models */,
 				AA4A4B8322A7A54E0074C5A3 /* Views */,
 				AA4A4B8222A7A5430074C5A3 /* Controllers */,
@@ -72,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				AA4A4B8022A7A4C00074C5A3 /* MasterController.swift */,
+				AA4A4B9322A7B38F0074C5A3 /* ReminderFetchResultsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -87,8 +101,20 @@
 		AA4A4B8422A7A5610074C5A3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AA4A4B8A22A7B1200074C5A3 /* Reminder+CoreDataClass.swift */,
+				AA4A4B8B22A7B1200074C5A3 /* Reminder+CoreDataProperties.swift */,
+				AA4A4B8722A7B03C0074C5A3 /* Reminder.xcdatamodeld */,
+				AA4A4B9122A7B3310074C5A3 /* DataSource.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		AA4A4B8E22A7B29E0074C5A3 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				AA4A4B8F22A7B2B60074C5A3 /* CoreDataStack.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,9 +188,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA4A4B9022A7B2B60074C5A3 /* CoreDataStack.swift in Sources */,
 				AA4A4B8122A7A4C00074C5A3 /* MasterController.swift in Sources */,
+				AA4A4B8C22A7B1200074C5A3 /* Reminder+CoreDataClass.swift in Sources */,
 				AA4A4B8622A7A5860074C5A3 /* ReminderCell.swift in Sources */,
 				AA4A4B6F22A7A2260074C5A3 /* AppDelegate.swift in Sources */,
+				AA4A4B8922A7B03C0074C5A3 /* Reminder.xcdatamodeld in Sources */,
+				AA4A4B9222A7B3310074C5A3 /* DataSource.swift in Sources */,
+				AA4A4B8D22A7B1200074C5A3 /* Reminder+CoreDataProperties.swift in Sources */,
+				AA4A4B9422A7B38F0074C5A3 /* ReminderFetchResultsController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,6 +396,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		AA4A4B8722A7B03C0074C5A3 /* Reminder.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AA4A4B8822A7B03C0074C5A3 /* Reminder.xcdatamodel */,
+			);
+			currentVersion = AA4A4B8822A7B03C0074C5A3 /* Reminder.xcdatamodel */;
+			path = Reminder.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = AA4A4B6322A7A2260074C5A3 /* Project object */;
 }
