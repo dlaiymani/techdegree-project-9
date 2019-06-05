@@ -41,7 +41,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSLocationAlwaysUsageDescription</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We use your data to alert you when entering or leavin a location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We use your data to alert you when entering or leavin a location</string>
 </dict>
 </plist>

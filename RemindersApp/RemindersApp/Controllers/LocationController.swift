@@ -19,6 +19,32 @@ class LocationController: UIViewController {
         return LocationManager(delegate: self, permissionsDelegate: nil)
     }()
     
+    var locationDescription = "📍 No Location"
+    
+    // Find an address from coordinates
+    var geocoder = CLGeocoder()
+    var coordinate: Coordinate? { // When coordinates are set the perform geocoding
+        didSet {
+            if let coordinate = coordinate {
+                let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                geocoder.reverseGeocodeLocation(location) { placemarks, error in
+                    if let error = error {
+                        print(error)
+                        
+                        let alertError = AlertError(error: .unableToFindLocation, on: self)
+                    } else {
+                        if let placemarks = placemarks, let placemark = placemarks.first, let name = placemark.name, let locality = placemark.locality, let adminArea = placemark.administrativeArea {
+                            self.locationDescription = "\(name), \(locality), \(adminArea)"
+                        } else {
+                            print("No matching address found")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
     // Check location authorization
     var isAuthorized: Bool {
         let isAuthorizedForLocation = LocationManager.isAuthorized
@@ -32,7 +58,7 @@ class LocationController: UIViewController {
     // Check permission or request the current location
     override func viewDidAppear(_ animated: Bool) {
         if isAuthorized {
-            locationManager.requestLocation()
+      //      locationManager.requestLocation()
         } else {
             checkPermissions()
         }
@@ -48,6 +74,16 @@ class LocationController: UIViewController {
             print("Location Authorization error \(error.localizedDescription)")
         }
     }
+    
+    
+    @IBAction func getCurrentLocation(_ sender: UIButton) {
+        if isAuthorized {
+            locationManager.requestLocation()
+        } else {
+            checkPermissions()
+        }
+    }
+    
     
 }
 

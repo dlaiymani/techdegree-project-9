@@ -108,7 +108,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             delegate?.failedWithError(.unableToFindLocation)
             return
         }
-        
         let coordinate = Coordinate(location: location)
         delegate?.obtainedCoordinates(coordinate)
     }
