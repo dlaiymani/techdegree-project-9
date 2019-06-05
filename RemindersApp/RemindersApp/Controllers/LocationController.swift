@@ -86,9 +86,17 @@ class LocationController: UIViewController {
     }
     
     
+    // Back to Detail Controller
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SaveLocationSegue" {
+            let detailViewController = segue.destination as! DetailController
+            if let coordinate = coordinate {
+                detailViewController.coordinate = coordinate
+                detailViewController.locationDescription = locationDescription
+            }
+        }
+    }
 }
-
-
 
 
 
