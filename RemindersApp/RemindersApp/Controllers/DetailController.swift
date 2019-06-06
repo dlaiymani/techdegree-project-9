@@ -32,7 +32,8 @@ class DetailController: UITableViewController {
 
     
     var managedObjectContext: NSManagedObjectContext!
-
+    
+    
     var coordinate = Coordinate(latitude: 0.0, longitude: 0.0)
     var locationDescription = ""
     var update:Bool = false // true if a cell has been tapped in the Master Controller
@@ -42,68 +43,68 @@ class DetailController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        geofenceSwitch.isOn = false
+        tableView.reloadData()
+        
+        if let reminder = reminder {
+            titleTextField.text = reminder.title
+            notesTextView.text = reminder.notes
+            locationDescription = reminder.locationDescription ?? ""
+            coordinate = Coordinate(latitude: reminder.latitude, longitude: reminder.longitude)
+        }
+
+        staticLocationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
+        staticLocationLabel.text = "Location"
+        staticLocationLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        locationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
+        locationLabel.text = locationDescription
+        locationLabel.textColor = .lightGray
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 2))
+        cell.contentView.addSubview(staticLocationLabel)
+        cell?.contentView.addSubview(locationLabel)
+        
+        staticLabelVerticalConstraint = NSLayoutConstraint(item: staticLocationLabel!, attribute: .centerY, relatedBy: .equal, toItem: cell.contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0)
+        staticLabelLeadingConstraint = NSLayoutConstraint(item: staticLocationLabel!, attribute: .leading, relatedBy: .equal, toItem: cell.contentView, attribute: .leadingMargin, multiplier: 1.0, constant: 0.0)
+        staticLabelTopConstraint = NSLayoutConstraint(item: staticLocationLabel!, attribute: .top, relatedBy: .equal, toItem: cell.contentView, attribute: .topMargin, multiplier: 1.0, constant: 8.0)
+        locationLabelLeadingConstraint = NSLayoutConstraint(item: locationLabel!, attribute: .leading, relatedBy: .equal, toItem: cell.contentView, attribute: .leadingMargin, multiplier: 1.0, constant: 0.0)
+        locationLabelBottomConstraint = NSLayoutConstraint(item: locationLabel!, attribute: .bottom, relatedBy: .equal, toItem: cell.contentView, attribute: .bottomMargin, multiplier: 1.0, constant: -8.0)
+        
+        staticLabelLeadingConstraint.isActive = true
+        locationLabelBottomConstraint.isActive = true
+        locationLabelLeadingConstraint.isActive = true
+        
         configureView()
-        
-        
         
     }
     
     
     func configureView() {
         tableView.reloadData()
-
         
-        if (coordinate.longitude == 0 && coordinate.latitude == 0) {
-            
-            staticLocationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
-            staticLocationLabel.text = "Location"
-            cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 2))
-            cell.contentView.addSubview(staticLocationLabel)
-            staticLocationLabel.translatesAutoresizingMaskIntoConstraints = false
-            
-            locationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
-            locationLabel.text = locationDescription
-            locationLabel.textColor = .lightGray
-            cell?.contentView.addSubview(locationLabel)
-            locationLabel.translatesAutoresizingMaskIntoConstraints = false
-            
-            staticLabelVerticalConstraint = NSLayoutConstraint(item: staticLocationLabel!, attribute: .centerY, relatedBy: .equal, toItem: cell.contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0)
-            staticLabelLeadingConstraint = NSLayoutConstraint(item: staticLocationLabel!, attribute: .leading, relatedBy: .equal, toItem: cell.contentView, attribute: .leadingMargin, multiplier: 1.0, constant: 0.0)
-            staticLabelTopConstraint = NSLayoutConstraint(item: staticLocationLabel!, attribute: .top, relatedBy: .equal, toItem: cell.contentView, attribute: .topMargin, multiplier: 1.0, constant: 8.0)
+        if coordinate.isNotSet() {
             staticLabelVerticalConstraint.isActive = true
-            staticLabelLeadingConstraint.isActive = true
             staticLabelTopConstraint.isActive = false
             
             locationLabel.isHidden = true
-            locationLabelLeadingConstraint = NSLayoutConstraint(item: locationLabel!, attribute: .leading, relatedBy: .equal, toItem: cell.contentView, attribute: .leadingMargin, multiplier: 1.0, constant: 0.0)
-            locationLabelBottomConstraint = NSLayoutConstraint(item: locationLabel!, attribute: .bottom, relatedBy: .equal, toItem: cell.contentView, attribute: .bottomMargin, multiplier: 1.0, constant: -8.0)
-            locationLabelBottomConstraint.isActive = true
-            locationLabelLeadingConstraint.isActive = true
+            geofenceSwitch.isOn = false
             
         } else {
             print(locationDescription)
+            locationLabel.text = locationDescription
             locationLabel.isHidden = false
+            
+            geofenceSwitch.isOn = true
 
             staticLabelVerticalConstraint.isActive = false
-            //staticLabelLeadingConstraint.isActive = false
             staticLabelTopConstraint.isActive = true
-            
-            
             
             
             view.layoutIfNeeded()
             
         }
         
-        if let reminder = reminder {
-            titleTextField.text = reminder.title
-            
-            // location info management
-            locationLabel.text = reminder.locationDescription
-            self.coordinate = Coordinate(latitude: reminder.latitude, longitude: reminder.longitude)
-        }
     }
     
     
@@ -129,7 +130,7 @@ class DetailController: UITableViewController {
             managedObjectContext.delete(self.reminder!)
         }
         
-        // create a new note only if text is non empty
+        // create a new reminder only if text is non empty
         let reminder = NSEntityDescription.insertNewObject(forEntityName: "Reminder", into: managedObjectContext) as! Reminder
         
         reminder.title = title
@@ -148,9 +149,18 @@ class DetailController: UITableViewController {
     
     // back from location controller
     @IBAction func unwindFromLocationController(_ segue: UIStoryboardSegue) {
-        self.locationLabel.text = locationDescription
+
         configureView()
 
+    }
+    
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let locationController = segue.destination as! LocationController
+        print(coordinate.latitude)
+        locationController.coordinate = coordinate
     }
     
     

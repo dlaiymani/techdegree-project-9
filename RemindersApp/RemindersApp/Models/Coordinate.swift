@@ -19,8 +19,16 @@ struct Coordinate {
         self.longitude = location.coordinate.longitude
     }
     
-    init(latitude: Double, longitude: Double) {
+     init(latitude: Double, longitude: Double) {
         self.latitude = latitude
         self.longitude = longitude
+    }
+    
+    func isNotSet() -> Bool {
+        if latitude == 0.0 && longitude == 0.0 {
+            return true
+        } else {
+            return false
+        }
     }
 }

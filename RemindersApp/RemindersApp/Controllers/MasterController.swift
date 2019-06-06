@@ -51,6 +51,15 @@ class MasterController: UITableViewController {
             
             addReminderController.managedObjectContext = self.managedObjectContext
             addReminderController.update = false
+        } else if segue.identifier == "UpdateReminder" { // A cell (a reminder) has been tapped
+            let navigationController = segue.destination as! UINavigationController
+            let updateReminderController = navigationController.topViewController as! DetailController
+            updateReminderController.update = true
+            if let indexPath = tableView.indexPathForSelectedRow { // The tapped cell
+                let reminder = dataSource.object(at: indexPath)
+                updateReminderController.reminder = reminder
+                updateReminderController.managedObjectContext = self.managedObjectContext
+            }
         }
     }
     

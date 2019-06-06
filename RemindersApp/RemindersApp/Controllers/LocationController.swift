@@ -12,19 +12,19 @@ import MapKit
 class LocationController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
-    
     @IBOutlet weak var alertingSegmentedControl: UISegmentedControl!
     
     lazy var locationManager: LocationManager = {
         return LocationManager(delegate: self, permissionsDelegate: nil)
     }()
     
-    var locationDescription = "📍 No Location"
+    var locationDescription = ""
     
     // Find an address from coordinates
     var geocoder = CLGeocoder()
     var coordinate: Coordinate? { // When coordinates are set the perform geocoding
         didSet {
+            print("yo")
             if let coordinate = coordinate {
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
                 geocoder.reverseGeocodeLocation(location) { placemarks, error in
@@ -54,6 +54,13 @@ class LocationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        if let coordinate = coordinate {
+            if !coordinate.isNotSet() {
+                adjustMap(with: coordinate)
+
+            }
+        }
+
     }
     
     // Check permission or request the current location
