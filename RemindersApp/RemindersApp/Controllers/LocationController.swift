@@ -19,6 +19,7 @@ class LocationController: UIViewController {
     }()
     
     var locationDescription = ""
+    var eventType = 0
     
     // Find an address from coordinates
     var geocoder = CLGeocoder()
@@ -57,9 +58,11 @@ class LocationController: UIViewController {
         if let coordinate = coordinate {
             if !coordinate.isNotSet() {
                 adjustMap(with: coordinate)
-
             }
         }
+        
+        alertingSegmentedControl.selectedSegmentIndex = eventType
+        
     }
     
     // Check permission or request the current location
@@ -92,9 +95,7 @@ class LocationController: UIViewController {
     }
     
    
-    
-    
-    
+
     // MARK: - Navigation
     // Back to Detail Controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -103,6 +104,11 @@ class LocationController: UIViewController {
             if let coordinate = coordinate {
                 detailViewController.coordinate = coordinate
                 detailViewController.locationDescription = locationDescription
+                if alertingSegmentedControl.selectedSegmentIndex == 0 {
+                    detailViewController.eventType = 0
+                } else {
+                    detailViewController.eventType = 1
+                }
             }
         }
     }

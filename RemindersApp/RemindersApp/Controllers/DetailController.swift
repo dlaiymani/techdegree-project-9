@@ -17,7 +17,6 @@ class DetailController: UITableViewController {
     @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var recurrenceSegmentedControl: UISegmentedControl!
     @IBOutlet weak var geofenceSwitch: UISwitch!
- //   @IBOutlet weak var staticLocationLabel: UILabel!
     
     var staticLocationLabel: UILabel!
     var locationLabel: UILabel!
@@ -36,6 +35,7 @@ class DetailController: UITableViewController {
     
     var coordinate = Coordinate(latitude: 0.0, longitude: 0.0)
     var locationDescription = ""
+    var eventType = 0
     var update:Bool = false // true if a cell has been tapped in the Master Controller
     
     var reminder: Reminder? // The reminder to create or update
@@ -50,6 +50,7 @@ class DetailController: UITableViewController {
             notesTextView.text = reminder.notes
             locationDescription = reminder.locationDescription ?? ""
             coordinate = Coordinate(latitude: reminder.latitude, longitude: reminder.longitude)
+            eventType = reminder.eventType
         }
 
         staticLocationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
@@ -143,8 +144,11 @@ class DetailController: UITableViewController {
         } else {
             reminder.recurrence = false
         }
+        reminder.eventType = eventType
         managedObjectContext.saveChanges()
-        dismiss(animated: true, completion: nil)    }
+        dismiss(animated: true, completion: nil)
+        
+    }
     
     
     // back from location controller
@@ -159,8 +163,8 @@ class DetailController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let locationController = segue.destination as! LocationController
-        print(coordinate.latitude)
         locationController.coordinate = coordinate
+        locationController.eventType = eventType
     }
     
     
