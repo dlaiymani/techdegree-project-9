@@ -13,6 +13,7 @@ class LocationController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var alertingSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var tableView: UITableView!
     
     lazy var locationManager: LocationManager = {
         return LocationManager(delegate: self, permissionsDelegate: nil)
@@ -20,6 +21,9 @@ class LocationController: UIViewController {
     
     var locationDescription = ""
     var eventType = false
+    
+    let searchController = UISearchController(searchResultsController: nil)
+
     
     // Find an address from coordinates
     var geocoder = CLGeocoder()
@@ -55,6 +59,10 @@ class LocationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        
+        setupSearchBar()
+        searchController.searchBar.delegate = self
+        searchController.searchBar.tintColor = .black
         if let coordinate = coordinate {
             if !coordinate.isNotSet() {
                 adjustMap(with: coordinate)
@@ -68,6 +76,16 @@ class LocationController: UIViewController {
 
         }
         
+    }
+    
+    func setupSearchBar() {
+       
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        navigationItem.hidesSearchBarWhenScrolling = false
+        self.navigationItem.searchController = searchController
     }
     
     // Check permission or request the current location
@@ -166,5 +184,53 @@ extension LocationController: MKMapViewDelegate {
             return circleRenderer
         }
         return MKOverlayRenderer(overlay: overlay)
+    }
+}
+
+
+// MARK: SearchController management
+
+extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
+    // When the search controller is activated i.e. the user enters a text,
+    // we change the fetchResultController to retreive the corresponding notes
+    func updateSearchResults(for searchController: UISearchController) {
+//        guard let searchTerm = searchController.searchBar.text else { return }
+//
+//        if !searchTerm.isEmpty {
+//            dataSource.fetchResultsController = NoteFetchResultsController(fetchRequest: Note.fetchRequestWithText(searchTerm), managedObjectContext: managedObjectContext, tableView: self.tableView)
+//            self.tableView.reloadData()
+//        }
+    }
+    
+}
+
+
+// SearchBar delegate
+extension LocationController: UISearchBarDelegate {
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        dataSource.fetchResultsController = NoteFetchResultsController(fetchRequest: Note.fetchRequest(), managedObjectContext: managedObjectContext, tableView: self.tableView)
+//        // The quick note view is displayed
+//        topView.frame.size.height = CGFloat(topViewHeight)
+//        topView.isHidden = false
+//        self.tableView.reloadData()
+    }
+    
+    // When the user enter some text, the quick note view is dismissed
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+//        topViewHeight = Int(topView.frame.size.height)
+//        topView.frame.size.height=0
+//        topView.isHidden = true
+//        tableView.reloadData()
+    }
+    
+    // Cross button tapped
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        if searchText == "" {
+//            dataSource.fetchResultsController = NoteFetchResultsController(fetchRequest: Note.fetchRequest(), managedObjectContext: managedObjectContext, tableView: self.tableView)
+//            topView.frame.size.height = CGFloat(topViewHeight)
+//            topView.isHidden = false
+//            self.tableView.reloadData()
+//        }
     }
 }
