@@ -109,6 +109,7 @@ class LocationController: UIViewController {
             if let coordinate = coordinate {
                 detailViewController.coordinate = coordinate
                 detailViewController.locationDescription = locationDescription
+                print(locationDescription)
                 if alertingSegmentedControl.selectedSegmentIndex == 0 {
                     detailViewController.eventType = false
                 } else {

@@ -11,8 +11,8 @@ import CoreLocation
 
 // The coordinate type
 struct Coordinate {
-    let latitude: Double
-    let longitude: Double
+    var latitude: Double
+    var longitude: Double
     
     init(location: CLLocation) {
         self.latitude = location.coordinate.latitude

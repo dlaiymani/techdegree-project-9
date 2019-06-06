@@ -113,8 +113,13 @@ class DetailController: UITableViewController {
         tableView.beginUpdates()
         tableView.endUpdates()
         
-        if let locationManager = locationManager,  let reminder = reminder {
-            locationManager.stopMonitoring(reminder: reminder)
+        if geofenceSwitch.isOn == false {
+            if let locationManager = locationManager,  let reminder = reminder {
+                locationManager.stopMonitoring(reminder: reminder)
+            }
+            coordinate.latitude = 0.0
+            coordinate.longitude = 0.0
+            locationDescription = ""
         }
     }
     
