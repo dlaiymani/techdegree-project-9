@@ -154,6 +154,7 @@ extension LocationController: UITableViewDelegate {
             self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.removeOverlays(self.mapView.overlays)
             self.adjustMap(with: coordinate)
+            self.coordinate = coordinate
         }
     }
     
