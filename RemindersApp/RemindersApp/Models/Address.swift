@@ -16,14 +16,16 @@ class Address {
     var locality: String?
     var country: String?
     var name: String?
+    var coordinate: Coordinate?
     
-    init(number: String?, street: String?, postalCode: String?, locality: String?, country: String?, name: String?) {
+    init(number: String?, street: String?, postalCode: String?, locality: String?, country: String?, name: String?, coordinate: Coordinate?) {
         self.number = number
         self.street = street
         self.postalCode = postalCode
         self.locality = locality
         self.country = country
         self.name = name
+        self.coordinate = coordinate
     }
     
     func addressString() -> String {

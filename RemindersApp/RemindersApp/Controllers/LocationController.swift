@@ -62,7 +62,7 @@ class LocationController: UIViewController {
         super.viewDidLoad()
         mapView.delegate = self
         self.tableView.dataSource = dataSource
-       // self.tableView.delegate = self
+        self.tableView.delegate = self
         
         
         setupSearchBar()
@@ -143,6 +143,21 @@ class LocationController: UIViewController {
     }
 }
 
+
+// MARK: - UITableViewDelegate
+extension LocationController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let address = dataSource.object(at: indexPath)
+        if let coordinate = address.coordinate {
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            self.mapView.removeOverlays(self.mapView.overlays)
+            self.adjustMap(with: coordinate)
+        }
+    }
+    
+}
 
 
 // MARK: - Location Manager Delegate
@@ -232,11 +247,11 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
             print("Unable to Forward Geocode Address (\(error))")
             
         } else {
-            var location: CLLocation?
             print(mapItems.count)
             var addresses = [Address]()
             for mapItem in mapItems {
-                var address = Address(number: mapItem.placemark.subThoroughfare, street: mapItem.placemark.thoroughfare, postalCode: mapItem.placemark.postalCode, locality: mapItem.placemark.locality, country: mapItem.placemark.country, name: mapItem.placemark.name)
+                let coordinate = Coordinate(latitude: mapItem.placemark.coordinate.latitude, longitude: mapItem.placemark.coordinate.longitude)
+                var address = Address(number: mapItem.placemark.subThoroughfare, street: mapItem.placemark.thoroughfare, postalCode: mapItem.placemark.postalCode, locality: mapItem.placemark.locality, country: mapItem.placemark.country, name: mapItem.placemark.name, coordinate: coordinate)
                 addresses.append(address)
             }
             
