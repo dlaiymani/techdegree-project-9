@@ -25,8 +25,6 @@ class LocationController: UIViewController {
     let searchController = UISearchController(searchResultsController: nil)
     
     let dataSource = SearchAddressResultsDataSource()
-
-
     
     // Find an address from coordinates
     var geocoder = CLGeocoder()
@@ -96,7 +94,7 @@ class LocationController: UIViewController {
     // Check permission or request the current location
     override func viewDidAppear(_ animated: Bool) {
         if isAuthorized {
-      //      locationManager.requestLocation()
+            locationManager.requestLocation()
         } else {
             checkPermissions()
         }
@@ -122,7 +120,6 @@ class LocationController: UIViewController {
         }
     }
     
-   
 
     // MARK: - Navigation
     // Back to Detail Controller
@@ -170,6 +167,7 @@ extension LocationController: LocationManagerDelegate {
     
     func failedWithError(_ error: LocationError) {
         let alertError = AlertError(error: error, on: self)
+        print("y&")
         alertError.displayAlert()
     }
 }
