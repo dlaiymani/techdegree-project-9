@@ -27,6 +27,7 @@
 		AA4A4BA022A906430074C5A3 /* SimulatedLocations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AA4A4B9F22A906420074C5A3 /* SimulatedLocations.gpx */; };
 		AA4A4BA222A9064D0074C5A3 /* Apple.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AA4A4BA122A9064C0074C5A3 /* Apple.gpx */; };
 		AA4A4BA422A906540074C5A3 /* Google.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AA4A4BA322A906540074C5A3 /* Google.gpx */; };
+		AA4A4BA622A910770074C5A3 /* NotificationFetchResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4BA522A910770074C5A3 /* NotificationFetchResultController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		AA4A4B9F22A906420074C5A3 /* SimulatedLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = SimulatedLocations.gpx; path = "../../../../../Downloads/Geotify/Geotify-Starter/Geotify/SimulatedLocations.gpx"; sourceTree = "<group>"; };
 		AA4A4BA122A9064C0074C5A3 /* Apple.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Apple.gpx; path = "../../../../../Downloads/Geotify/Geotify-Starter/Geotify/Apple.gpx"; sourceTree = "<group>"; };
 		AA4A4BA322A906540074C5A3 /* Google.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Google.gpx; path = "../../../../../Downloads/Geotify/Geotify-Starter/Geotify/Google.gpx"; sourceTree = "<group>"; };
+		AA4A4BA522A910770074C5A3 /* NotificationFetchResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFetchResultController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				AA4A4B9522A7B6BF0074C5A3 /* DetailController.swift */,
 				AA4A4B9322A7B38F0074C5A3 /* ReminderFetchResultsController.swift */,
 				AA4A4B9922A7E1630074C5A3 /* LocationController.swift */,
+				AA4A4BA522A910770074C5A3 /* NotificationFetchResultController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				AA4A4B8622A7A5860074C5A3 /* ReminderCell.swift in Sources */,
 				AA4A4B9A22A7E1630074C5A3 /* LocationController.swift in Sources */,
 				AA4A4B6F22A7A2260074C5A3 /* AppDelegate.swift in Sources */,
+				AA4A4BA622A910770074C5A3 /* NotificationFetchResultController.swift in Sources */,
 				AA4A4B9822A7B75E0074C5A3 /* Coordinate.swift in Sources */,
 				AA4A4B8922A7B03C0074C5A3 /* Reminder.xcdatamodeld in Sources */,
 				AA4A4B9222A7B3310074C5A3 /* DataSource.swift in Sources */,

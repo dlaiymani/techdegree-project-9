@@ -15,7 +15,7 @@ class ReminderFetchResultsController: NSFetchedResultsController<Reminder>, NSFe
     private let tableView: UITableView
     private var nbOfSections = 0
     
-    // Initiate a CoreData request on Notes and associate a tableview to it
+    // Initiate a CoreData request on reminder and associate a tableview to it
     init(fetchRequest: NSFetchRequest<Reminder>, managedObjectContext: NSManagedObjectContext, tableView: UITableView) {
         self.tableView = tableView
         
@@ -25,6 +25,7 @@ class ReminderFetchResultsController: NSFetchedResultsController<Reminder>, NSFe
         
         tryFetch()
     }
+    
     
     // perform the fetch operation
     func tryFetch() {

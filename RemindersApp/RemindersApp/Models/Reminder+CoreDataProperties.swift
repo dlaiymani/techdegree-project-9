@@ -19,6 +19,18 @@ extension Reminder {
         
         return request
     }
+    
+    
+    @nonobjc  class func fetchRequestWithText(_ title: String) -> NSFetchRequest<Reminder> {
+        
+        let request = NSFetchRequest<Reminder>(entityName: "Reminder")
+        
+        let predicate  = NSPredicate(format: "title == %@", title)
+        request.predicate = predicate
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        return request
+    }
 
     @NSManaged public var title: String?
     @NSManaged public var locationDescription: String?

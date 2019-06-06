@@ -8,9 +8,12 @@
 
 import UIKit
 import CoreLocation
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    let managedObjectContext = CoreDataStack().managedObjectContext
 
     var window: UIWindow?
     let locationManager = CLLocationManager()
@@ -21,11 +24,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+        
+        let options: UNAuthorizationOptions = [.badge, .sound, .alert]
+        UNUserNotificationCenter.current()
+            .requestAuthorization(options: options) { success, error in
+                if let error = error {
+                    print("Error: \(error)")
+                }
+        }
+        
         return true
     }
 
     func handleEvent(for region: CLRegion!) {
-        print("Geofence triggered!")
+        var fetchResultController = LocationFetchResultsController(fetchRequest: Reminder.fetchRequestWithText(region.identifier), managedObjectContext: self.managedObjectContext)
+        
+        // Show an alert if application is active
+        if UIApplication.shared.applicationState == .active {
+            guard let message = fetchResultController.object(at: IndexPath(row: 0, section: 0)).title else { return }
+            window?.rootViewController?.showAlert(withTitle: nil, message: message)
+        } else {
+            // Otherwise present a local notification
+            guard let body = fetchResultController.object(at: IndexPath(row: 0, section: 0)).title else { return }
+            let notificationContent = UNMutableNotificationContent()
+            notificationContent.body = body
+            notificationContent.sound = UNNotificationSound.default
+            notificationContent.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(identifier: "location_change",
+                                                content: notificationContent,
+                                                trigger: trigger)
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Error: \(error)")
+                }
+            }
+        }
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        application.applicationIconBadgeNumber = 0
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -42,9 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
+    
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
