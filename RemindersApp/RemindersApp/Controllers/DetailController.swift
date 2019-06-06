@@ -32,14 +32,14 @@ class DetailController: UITableViewController {
     
     var managedObjectContext: NSManagedObjectContext!
     
-    
     var coordinate = Coordinate(latitude: 0.0, longitude: 0.0)
     var locationDescription = ""
-    var eventType = 0
+    var eventType: Bool = false
     var update:Bool = false // true if a cell has been tapped in the Master Controller
     
     var reminder: Reminder? // The reminder to create or update
     
+    var locationManager: LocationManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,6 +112,10 @@ class DetailController: UITableViewController {
     @IBAction func geofenceSwitchToggled(_ sender: Any) {
         tableView.beginUpdates()
         tableView.endUpdates()
+        
+        if let locationManager = locationManager,  let reminder = reminder {
+            locationManager.stopMonitoring(reminder: reminder)
+        }
     }
     
     
@@ -145,6 +149,11 @@ class DetailController: UITableViewController {
             reminder.recurrence = false
         }
         reminder.eventType = eventType
+        
+        if let locationManager = locationManager {
+            locationManager.startMonitoring(reminder: reminder)
+        }
+        
         managedObjectContext.saveChanges()
         dismiss(animated: true, completion: nil)
         
@@ -157,6 +166,8 @@ class DetailController: UITableViewController {
         configureView()
 
     }
+    
+    
     
     
     // MARK: - Navigation

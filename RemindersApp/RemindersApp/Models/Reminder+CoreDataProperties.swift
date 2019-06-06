@@ -26,7 +26,7 @@ extension Reminder {
     @NSManaged public var longitude: Double
     @NSManaged public var notes: String?
     @NSManaged public var recurrence: Bool
-    @NSManaged public var eventType: Int
+    @NSManaged public var eventType: Bool
 
 
 

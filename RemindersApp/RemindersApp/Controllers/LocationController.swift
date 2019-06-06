@@ -19,7 +19,7 @@ class LocationController: UIViewController {
     }()
     
     var locationDescription = ""
-    var eventType = 0
+    var eventType = false
     
     // Find an address from coordinates
     var geocoder = CLGeocoder()
@@ -61,7 +61,12 @@ class LocationController: UIViewController {
             }
         }
         
-        alertingSegmentedControl.selectedSegmentIndex = eventType
+        if eventType == false {
+            alertingSegmentedControl.selectedSegmentIndex = 0
+        } else {
+            alertingSegmentedControl.selectedSegmentIndex = 1
+
+        }
         
     }
     
@@ -105,10 +110,11 @@ class LocationController: UIViewController {
                 detailViewController.coordinate = coordinate
                 detailViewController.locationDescription = locationDescription
                 if alertingSegmentedControl.selectedSegmentIndex == 0 {
-                    detailViewController.eventType = 0
+                    detailViewController.eventType = false
                 } else {
-                    detailViewController.eventType = 1
+                    detailViewController.eventType = true
                 }
+                detailViewController.locationManager = self.locationManager
             }
         }
     }

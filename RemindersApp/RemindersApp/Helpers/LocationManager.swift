@@ -119,7 +119,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         let region = CLCircularRegion(center: coordinate2D,
                                       radius: CLLocationDistance(exactly: 50.0)!,
                                       identifier: reminder.title!)
-        region.notifyOnEntry = (reminder.eventType == 0)
+        region.notifyOnEntry = (reminder.eventType == false)
         region.notifyOnExit = !region.notifyOnEntry
         return region
     }
@@ -150,6 +150,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                 circularRegion.identifier == reminder.title else { continue }
             manager.stopMonitoring(for: circularRegion)
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?,
+                         withError error: Error) {
+        print("Monitoring failed for region with identifier: \(region!.identifier)")
     }
     
     

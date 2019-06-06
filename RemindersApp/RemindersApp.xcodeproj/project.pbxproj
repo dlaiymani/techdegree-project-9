@@ -24,6 +24,9 @@
 		AA4A4B9A22A7E1630074C5A3 /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B9922A7E1630074C5A3 /* LocationController.swift */; };
 		AA4A4B9C22A7E26A0074C5A3 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B9B22A7E26A0074C5A3 /* LocationManager.swift */; };
 		AA4A4B9E22A7E3620074C5A3 /* AlertError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4B9D22A7E3620074C5A3 /* AlertError.swift */; };
+		AA4A4BA022A906430074C5A3 /* SimulatedLocations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AA4A4B9F22A906420074C5A3 /* SimulatedLocations.gpx */; };
+		AA4A4BA222A9064D0074C5A3 /* Apple.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AA4A4BA122A9064C0074C5A3 /* Apple.gpx */; };
+		AA4A4BA422A906540074C5A3 /* Google.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AA4A4BA322A906540074C5A3 /* Google.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,9 @@
 		AA4A4B9922A7E1630074C5A3 /* LocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
 		AA4A4B9B22A7E26A0074C5A3 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		AA4A4B9D22A7E3620074C5A3 /* AlertError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertError.swift; sourceTree = "<group>"; };
+		AA4A4B9F22A906420074C5A3 /* SimulatedLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = SimulatedLocations.gpx; path = "../../../../../Downloads/Geotify/Geotify-Starter/Geotify/SimulatedLocations.gpx"; sourceTree = "<group>"; };
+		AA4A4BA122A9064C0074C5A3 /* Apple.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Apple.gpx; path = "../../../../../Downloads/Geotify/Geotify-Starter/Geotify/Apple.gpx"; sourceTree = "<group>"; };
+		AA4A4BA322A906540074C5A3 /* Google.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Google.gpx; path = "../../../../../Downloads/Geotify/Geotify-Starter/Geotify/Google.gpx"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +92,9 @@
 				AA4A4B7222A7A2260074C5A3 /* Main.storyboard */,
 				AA4A4B7522A7A2280074C5A3 /* Assets.xcassets */,
 				AA4A4B7722A7A2280074C5A3 /* LaunchScreen.storyboard */,
+				AA4A4BA122A9064C0074C5A3 /* Apple.gpx */,
+				AA4A4BA322A906540074C5A3 /* Google.gpx */,
+				AA4A4B9F22A906420074C5A3 /* SimulatedLocations.gpx */,
 				AA4A4B7A22A7A2280074C5A3 /* Info.plist */,
 			);
 			path = RemindersApp;
@@ -192,7 +201,10 @@
 			files = (
 				AA4A4B7922A7A2280074C5A3 /* LaunchScreen.storyboard in Resources */,
 				AA4A4B7622A7A2280074C5A3 /* Assets.xcassets in Resources */,
+				AA4A4BA422A906540074C5A3 /* Google.gpx in Resources */,
+				AA4A4BA222A9064D0074C5A3 /* Apple.gpx in Resources */,
 				AA4A4B7422A7A2260074C5A3 /* Main.storyboard in Resources */,
+				AA4A4BA022A906430074C5A3 /* SimulatedLocations.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
