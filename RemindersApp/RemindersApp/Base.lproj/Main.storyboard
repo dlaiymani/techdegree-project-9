@@ -360,7 +360,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="448"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="EbT-La-qPL" detailTextLabel="QVn-zx-myy" style="IBUITableViewCellStyleSubtitle" id="vzH-X6-Hc2">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="addressCell" textLabel="EbT-La-qPL" detailTextLabel="QVn-zx-myy" style="IBUITableViewCellStyleSubtitle" id="vzH-X6-Hc2">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vzH-X6-Hc2" id="cSz-FD-OjM">

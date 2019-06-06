@@ -29,7 +29,6 @@ class LocationController: UIViewController {
     var geocoder = CLGeocoder()
     var coordinate: Coordinate? { // When coordinates are set the perform geocoding
         didSet {
-            print("yo")
             if let coordinate = coordinate {
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
                 geocoder.reverseGeocodeLocation(location) { placemarks, error in
@@ -194,12 +193,48 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
     // When the search controller is activated i.e. the user enters a text,
     // we change the fetchResultController to retreive the corresponding notes
     func updateSearchResults(for searchController: UISearchController) {
-//        guard let searchTerm = searchController.searchBar.text else { return }
-//
-//        if !searchTerm.isEmpty {
-//            dataSource.fetchResultsController = NoteFetchResultsController(fetchRequest: Note.fetchRequestWithText(searchTerm), managedObjectContext: managedObjectContext, tableView: self.tableView)
-//            self.tableView.reloadData()
-//        }
+        guard let searchTerm = searchController.searchBar.text else { return }
+
+        if !searchTerm.isEmpty {
+            
+            geocoder.geocodeAddressString(searchTerm) { (placemarks, error) in
+                // Process Response
+                self.processResponse(withPlacemarks: placemarks, error: error)
+            }
+            
+           // dataSource.fetchResultsController = NoteFetchResultsController(fetchRequest: Note.fetchRequestWithText(searchTerm), managedObjectContext: managedObjectContext, tableView: self.tableView)
+          //  self.tableView.reloadData()
+        }
+    }
+    
+    
+    private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
+        // Update View
+        
+       // activityIndicatorView.stopAnimating()
+        
+        if let error = error {
+            print("Unable to Forward Geocode Address (\(error))")
+          //  locationLabel.text = "Unable to Find Location for Address"
+            
+        } else {
+            var location: CLLocation?
+            
+            if let placemarks = placemarks, placemarks.count > 0 {
+                location = placemarks.first?.location
+                var address = "\(placemarks.first?.subThoroughfare) \(placemarks.first?.thoroughfare)"
+                var subAddress = "\(placemarks.first?.subThoroughfare) \(placemarks.first?.thoroughfare) \(placemarks.first?.postalCode) \(placemarks.first?.locality) \(placemarks.first?.country)"
+                print(address)
+                print(subAddress)
+            }
+            
+            if let location = location {
+                let coordinate = location.coordinate
+              //  locationLabel.text = "\(coordinate.latitude), \(coordinate.longitude)"
+            } else {
+               // locationLabel.text = "No Matching Location Found"
+            }
+        }
     }
     
 }

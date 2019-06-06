@@ -28,6 +28,8 @@
 		AA4A4BA222A9064D0074C5A3 /* Apple.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AA4A4BA122A9064C0074C5A3 /* Apple.gpx */; };
 		AA4A4BA422A906540074C5A3 /* Google.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AA4A4BA322A906540074C5A3 /* Google.gpx */; };
 		AA4A4BA622A910770074C5A3 /* NotificationFetchResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4BA522A910770074C5A3 /* NotificationFetchResultController.swift */; };
+		AA4A4BA822A942160074C5A3 /* SearchAddressDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4BA722A942160074C5A3 /* SearchAddressDataSource.swift */; };
+		AA4A4BAA22A942950074C5A3 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A4BA922A942950074C5A3 /* Address.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		AA4A4BA122A9064C0074C5A3 /* Apple.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Apple.gpx; path = "../../../../../Downloads/Geotify/Geotify-Starter/Geotify/Apple.gpx"; sourceTree = "<group>"; };
 		AA4A4BA322A906540074C5A3 /* Google.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Google.gpx; path = "../../../../../Downloads/Geotify/Geotify-Starter/Geotify/Google.gpx"; sourceTree = "<group>"; };
 		AA4A4BA522A910770074C5A3 /* NotificationFetchResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFetchResultController.swift; sourceTree = "<group>"; };
+		AA4A4BA722A942160074C5A3 /* SearchAddressDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddressDataSource.swift; sourceTree = "<group>"; };
+		AA4A4BA922A942950074C5A3 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +134,8 @@
 				AA4A4B9122A7B3310074C5A3 /* DataSource.swift */,
 				AA4A4B9722A7B75E0074C5A3 /* Coordinate.swift */,
 				AA4A4B8722A7B03C0074C5A3 /* Reminder.xcdatamodeld */,
+				AA4A4BA722A942160074C5A3 /* SearchAddressDataSource.swift */,
+				AA4A4BA922A942950074C5A3 /* Address.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -230,9 +236,11 @@
 				AA4A4B9222A7B3310074C5A3 /* DataSource.swift in Sources */,
 				AA4A4B9E22A7E3620074C5A3 /* AlertError.swift in Sources */,
 				AA4A4B8D22A7B1200074C5A3 /* Reminder+CoreDataProperties.swift in Sources */,
+				AA4A4BAA22A942950074C5A3 /* Address.swift in Sources */,
 				AA4A4B9622A7B6BF0074C5A3 /* DetailController.swift in Sources */,
 				AA4A4B9422A7B38F0074C5A3 /* ReminderFetchResultsController.swift in Sources */,
 				AA4A4B9C22A7E26A0074C5A3 /* LocationManager.swift in Sources */,
+				AA4A4BA822A942160074C5A3 /* SearchAddressDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
