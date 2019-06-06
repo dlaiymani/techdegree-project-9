@@ -111,4 +111,53 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         let coordinate = Coordinate(location: location)
         delegate?.obtainedCoordinates(coordinate)
     }
+    
+    // MARK: - Geofencing
+    func region(with reminder: Reminder) -> CLCircularRegion {
+        
+        let coordinate2D = CLLocationCoordinate2D(latitude: reminder.latitude, longitude: reminder.longitude)
+        let region = CLCircularRegion(center: coordinate2D,
+                                      radius: CLLocationDistance(exactly: 50.0)!,
+                                      identifier: reminder.title!)
+        region.notifyOnEntry = (reminder.eventType == 0)
+        region.notifyOnExit = !region.notifyOnEntry
+        return region
+    }
+    
+    
+    func startMonitoring(reminder: Reminder) {
+        if !CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+            print("Error: Geofencing is not supported on this device!")
+            //   showAlert(withTitle:"Error", message: "Geofencing is not supported on this device!")
+            return
+        }
+        
+        if CLLocationManager.authorizationStatus() != .authorizedAlways {
+            let message = """
+      Your geotification is saved but will only be activated once you grant
+      Geotify permission to access the device location.
+      """
+            print("message")
+            // showAlert(withTitle:"Warning", message: message)
+        }
+        let fenceRegion = region(with: reminder)
+        self.manager.startMonitoring(for: fenceRegion)
+    }
+    
+    func stopMonitoring(reminder: Reminder) {
+        for region in manager.monitoredRegions {
+            guard let circularRegion = region as? CLCircularRegion,
+                circularRegion.identifier == reminder.title else { continue }
+            manager.stopMonitoring(for: circularRegion)
+        }
+    }
+    
+    
+    
+    
+    
 }
+
+
+
+

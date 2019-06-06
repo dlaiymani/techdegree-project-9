@@ -60,7 +60,6 @@ class LocationController: UIViewController {
 
             }
         }
-
     }
     
     // Check permission or request the current location
@@ -92,7 +91,11 @@ class LocationController: UIViewController {
         }
     }
     
+   
     
+    
+    
+    // MARK: - Navigation
     // Back to Detail Controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SaveLocationSegue" {
