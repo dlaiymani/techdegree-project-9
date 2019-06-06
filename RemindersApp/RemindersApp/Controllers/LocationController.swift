@@ -23,6 +23,9 @@ class LocationController: UIViewController {
     var eventType = false
     
     let searchController = UISearchController(searchResultsController: nil)
+    
+    let dataSource = SearchAddressResultsDataSource()
+
 
     
     // Find an address from coordinates
@@ -58,6 +61,9 @@ class LocationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        self.tableView.dataSource = dataSource
+       // self.tableView.delegate = self
+        
         
         setupSearchBar()
         searchController.searchBar.delegate = self
@@ -126,7 +132,6 @@ class LocationController: UIViewController {
             if let coordinate = coordinate {
                 detailViewController.coordinate = coordinate
                 detailViewController.locationDescription = locationDescription
-                print(locationDescription)
                 if alertingSegmentedControl.selectedSegmentIndex == 0 {
                     detailViewController.eventType = false
                 } else {
@@ -197,10 +202,23 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
 
         if !searchTerm.isEmpty {
             
-            geocoder.geocodeAddressString(searchTerm) { (placemarks, error) in
-                // Process Response
-                self.processResponse(withPlacemarks: placemarks, error: error)
+            let request = MKLocalSearch.Request()
+            request.naturalLanguageQuery = searchTerm
+            request.region = self.mapView.region
+            
+            let search = MKLocalSearch(request: request)
+            search.start { (responses, error) in
+                if let responses = responses {
+                    self.processResponse(withMapItems: responses.mapItems , error: error)
+                }
             }
+            
+
+
+//            geocoder.geocodeAddressString(searchTerm) { (placemarks, error) in
+//                // Process Response
+//                self.processResponse(withPlacemarks: placemarks, error: error)
+//            }
             
            // dataSource.fetchResultsController = NoteFetchResultsController(fetchRequest: Note.fetchRequestWithText(searchTerm), managedObjectContext: managedObjectContext, tableView: self.tableView)
           //  self.tableView.reloadData()
@@ -208,32 +226,33 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
     }
     
     
-    private func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
+    private func processResponse(withMapItems mapItems: [MKMapItem], error: Error?) {
         // Update View
-        
-       // activityIndicatorView.stopAnimating()
-        
         if let error = error {
             print("Unable to Forward Geocode Address (\(error))")
-          //  locationLabel.text = "Unable to Find Location for Address"
             
         } else {
             var location: CLLocation?
-            
-            if let placemarks = placemarks, placemarks.count > 0 {
-                location = placemarks.first?.location
-                var address = "\(placemarks.first?.subThoroughfare) \(placemarks.first?.thoroughfare)"
-                var subAddress = "\(placemarks.first?.subThoroughfare) \(placemarks.first?.thoroughfare) \(placemarks.first?.postalCode) \(placemarks.first?.locality) \(placemarks.first?.country)"
-                print(address)
-                print(subAddress)
+            print(mapItems.count)
+            var addresses = [Address]()
+            for mapItem in mapItems {
+                var address = Address(number: mapItem.placemark.subThoroughfare, street: mapItem.placemark.thoroughfare, postalCode: mapItem.placemark.postalCode, locality: mapItem.placemark.locality, country: mapItem.placemark.country, name: mapItem.placemark.name)
+                addresses.append(address)
             }
             
-            if let location = location {
-                let coordinate = location.coordinate
-              //  locationLabel.text = "\(coordinate.latitude), \(coordinate.longitude)"
-            } else {
-               // locationLabel.text = "No Matching Location Found"
+            DispatchQueue.main.async {
+                self.dataSource.update(with: addresses)
+                self.tableView.reloadData()
             }
+            
+
+            
+//            if let location = location {
+//                let coordinate = location.coordinate
+//              //  locationLabel.text = "\(coordinate.latitude), \(coordinate.longitude)"
+//            } else {
+//               // locationLabel.text = "No Matching Location Found"
+//            }
         }
     }
     
@@ -244,28 +263,22 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
 extension LocationController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-//        dataSource.fetchResultsController = NoteFetchResultsController(fetchRequest: Note.fetchRequest(), managedObjectContext: managedObjectContext, tableView: self.tableView)
-//        // The quick note view is displayed
-//        topView.frame.size.height = CGFloat(topViewHeight)
-//        topView.isHidden = false
-//        self.tableView.reloadData()
+        
+        dataSource.update(with: [])
+        tableView.reloadData()
     }
     
     // When the user enter some text, the quick note view is dismissed
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-//        topViewHeight = Int(topView.frame.size.height)
-//        topView.frame.size.height=0
-//        topView.isHidden = true
-//        tableView.reloadData()
+        tableView.reloadData()
     }
     
     // Cross button tapped
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        if searchText == "" {
-//            dataSource.fetchResultsController = NoteFetchResultsController(fetchRequest: Note.fetchRequest(), managedObjectContext: managedObjectContext, tableView: self.tableView)
-//            topView.frame.size.height = CGFloat(topViewHeight)
-//            topView.isHidden = false
-//            self.tableView.reloadData()
-//        }
+       
+        if searchText == "" {
+            dataSource.update(with: [])
+            tableView.reloadData()
+        }
     }
 }

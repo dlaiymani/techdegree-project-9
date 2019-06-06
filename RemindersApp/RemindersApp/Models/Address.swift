@@ -15,12 +15,60 @@ class Address {
     var postalCode: String?
     var locality: String?
     var country: String?
+    var name: String?
     
-    init(number: String?, street: String?, postalCode: String?, locality: String?, country: String?) {
+    init(number: String?, street: String?, postalCode: String?, locality: String?, country: String?, name: String?) {
         self.number = number
         self.street = street
         self.postalCode = postalCode
         self.locality = locality
         self.country = country
+        self.name = name
     }
+    
+    func addressString() -> String {
+        
+        var addressString = ""
+        if self.name != nil {
+            addressString += "\(self.name!) "
+        }
+//        if self.number != nil {
+//            addressString += "\(self.number!) "
+//        }
+        
+//        if self.street != nil {
+//            addressString += "\(self.street!)"
+//        }
+        
+        return addressString
+    }
+    
+    func completeAddressString() -> String {
+        
+        var addressString = ""
+        if self.number != nil {
+            addressString += "\(self.number!) "
+        }
+        
+        if self.street != nil {
+            addressString += "\(self.street!) "
+        }
+        
+        if self.postalCode != nil {
+            addressString += "\(self.postalCode!) "
+        }
+        
+        if self.locality != nil {
+            addressString += "\(self.locality!) "
+        }
+        
+        if self.country != nil {
+            addressString += "\(self.country!) "
+        }
+        
+        
+        return addressString
+    }
+    
+    
 }

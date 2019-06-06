@@ -31,8 +31,8 @@ class SearchAddressResultsDataSource: NSObject, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "addressCell", for: indexPath)
         
         let address = object(at: indexPath)
-        cell.textLabel?.text = "\(address.number) \(address.street)"
-        cell.detailTextLabel?.text = "\(address.number) \(address.street) \(address.postalCode) \(address.locality) \(address.country)"
+        cell.textLabel?.text = address.addressString()
+        cell.detailTextLabel?.text = address.completeAddressString()
         
         return cell
     }
