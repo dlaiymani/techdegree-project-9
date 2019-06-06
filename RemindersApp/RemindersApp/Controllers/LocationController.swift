@@ -34,8 +34,6 @@ class LocationController: UIViewController {
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
                 geocoder.reverseGeocodeLocation(location) { placemarks, error in
                     if let error = error {
-                        print(error)
-                        
                         let alertError = AlertError(error: .unableToFindLocation, on: self)
                     } else {
                         if let placemarks = placemarks, let placemark = placemarks.first, let name = placemark.name, let locality = placemark.locality, let adminArea = placemark.administrativeArea {
@@ -166,8 +164,8 @@ extension LocationController: LocationManagerDelegate {
     }
     
     func failedWithError(_ error: LocationError) {
+        mapView.isHidden = true
         let alertError = AlertError(error: error, on: self)
-        print("y&")
         alertError.displayAlert()
     }
 }
@@ -176,6 +174,7 @@ extension LocationController: LocationManagerDelegate {
 extension LocationController {
     // Adjust the map around the current location and display an annotation at this location
     func adjustMap(with coordinate: Coordinate) {
+        
         let coordinate2D = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         let region = MKCoordinateRegion.init(center: coordinate2D, latitudinalMeters: 500, longitudinalMeters: 500)
         
