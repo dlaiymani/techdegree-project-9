@@ -130,7 +130,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func startMonitoring(reminder: Reminder) {
         if !CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
             print("Error: Geofencing is not supported on this device!")
-            //   showAlert(withTitle:"Error", message: "Geofencing is not supported on this device!")
+          //  showAlert(withTitle:"Error", message: "Geofencing is not supported on this device!")
             return
         }
         
@@ -139,10 +139,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
       Your geotification is saved but will only be activated once you grant
       Geotify permission to access the device location.
       """
-            print("message")
+            print(message)
             // showAlert(withTitle:"Warning", message: message)
         }
         let fenceRegion = region(with: reminder)
+        
         self.manager.startMonitoring(for: fenceRegion)
     }
     
@@ -158,10 +159,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                          withError error: Error) {
         print("Monitoring failed for region with identifier: \(region!.identifier)")
     }
-    
-    
-    
-    
     
 }
 

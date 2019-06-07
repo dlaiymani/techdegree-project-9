@@ -15,7 +15,6 @@ class DetailController: UITableViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var notesTextView: UITextView!
-    @IBOutlet weak var recurrenceSegmentedControl: UISegmentedControl!
     @IBOutlet weak var geofenceSwitch: UISwitch!
     
     @IBOutlet var tapOnView: UITapGestureRecognizer!
@@ -159,11 +158,6 @@ class DetailController: UITableViewController {
         reminder.latitude = coordinate.latitude
         reminder.longitude = coordinate.longitude
         reminder.locationDescription = locationDescription
-        if recurrenceSegmentedControl.selectedSegmentIndex == 0 {
-            reminder.recurrence = true
-        } else {
-            reminder.recurrence = false
-        }
         reminder.eventType = eventType
         
         if let locationManager = locationManager {
