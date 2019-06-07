@@ -244,14 +244,13 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
 extension LocationController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
         dataSource.update(with: [])
         tableView.reloadData()
     }
     
     // When the user enter some text, the quick note view is dismissed
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        tableView.reloadData()
+        //tableView.reloadData()
     }
     
     // Cross button tapped

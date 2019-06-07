@@ -124,13 +124,13 @@ class DetailController: UITableViewController {
             coordinate.latitude = 0.0
             coordinate.longitude = 0.0
             locationDescription = ""
+            configureView()
         }
     }
     
     // Dismiss UITextview keyboard
     
     @IBAction func dismissKeyboard(_ sender: Any) {
-        print("yo")
         notesTextView.resignFirstResponder()
     }
     
