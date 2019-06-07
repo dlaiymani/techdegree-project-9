@@ -105,8 +105,7 @@ class LocationController: UIViewController {
         do {
             try locationManager.requestLocationAuthorization()
         } catch LocationError.disallowedByUser {
-            // Show alert to users
-            print("error")
+            self.showAlert(withTitle: "ReminderApp needs your location data", message: "Please, see your settings configuration")
         } catch let error {
             print("Location Authorization error \(error.localizedDescription)")
         }
@@ -162,7 +161,6 @@ extension LocationController: UITableViewDelegate {
 // MARK: - Location Manager Delegate
 extension LocationController: LocationManagerDelegate {
     func obtainedCoordinates(_ coordinate: Coordinate) {
-        print("yo")
         self.coordinate = coordinate
         adjustMap(with: coordinate)
     }

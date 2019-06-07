@@ -36,18 +36,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func handleEvent(for region: CLRegion!) {
+    func handleEvent(for region: CLRegion!, when event: String) {
         var fetchResultController = LocationFetchResultsController(fetchRequest: Reminder.fetchRequestWithText(region.identifier), managedObjectContext: self.managedObjectContext)
         
         // Show an alert if application is active
         if UIApplication.shared.applicationState == .active {
             guard let message = fetchResultController.object(at: IndexPath(row: 0, section: 0)).title else { return }
-            window?.rootViewController?.showAlert(withTitle: nil, message: message)
+            window?.rootViewController?.showAlert(withTitle: nil, message: "\(event): message")
         } else {
             // Otherwise present a local notification
             guard let body = fetchResultController.object(at: IndexPath(row: 0, section: 0)).title else { return }
             let notificationContent = UNMutableNotificationContent()
-            notificationContent.body = body
+            notificationContent.body = "\(event): body"
             notificationContent.sound = UNNotificationSound.default
             notificationContent.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
@@ -95,13 +95,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
-            handleEvent(for: region)
+            handleEvent(for: region, when: "Arriving")
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         if region is CLCircularRegion {
-            handleEvent(for: region)
+            handleEvent(for: region, when: "Leaving")
         }
     }
 }

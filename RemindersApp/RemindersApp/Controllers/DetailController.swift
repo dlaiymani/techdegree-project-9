@@ -132,6 +132,7 @@ class DetailController: UITableViewController {
     
     @IBAction func dismissKeyboard(_ sender: Any) {
         notesTextView.resignFirstResponder()
+        titleTextField.resignFirstResponder()
     }
     
     @IBAction func cancelTapped(_ sender: Any) {
