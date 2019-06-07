@@ -45,6 +45,27 @@ class Address {
         return addressString
     }
     
+    func simpleAddress() -> String {
+        var addressString = ""
+        if self.number != nil {
+            addressString += "\(self.number!) "
+        }
+        
+        if self.street != nil {
+            addressString += "\(self.street!) "
+        }
+        
+        if self.postalCode != nil {
+            addressString += "\(self.postalCode!) "
+        }
+        
+        if self.locality != nil {
+            addressString += "\(self.locality!) "
+        }
+        return addressString
+
+    }
+    
     func completeAddressString() -> String {
         
         var addressString = ""

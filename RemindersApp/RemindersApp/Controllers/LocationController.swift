@@ -28,10 +28,14 @@ class LocationController: UIViewController {
     var request = MKLocalSearch.Request()
     var search: MKLocalSearch?
     
+    var needGeocoding = true
+    
     // Find an address from coordinates
     var geocoder = CLGeocoder()
-    var coordinate: Coordinate? { // When coordinates are set the perform geocoding
+    var coordinate: Coordinate? { // When coordinates are set perform geocoding
         didSet {
+            guard needGeocoding else { needGeocoding = true; return }
+            
             if let coordinate = coordinate {
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
                 geocoder.reverseGeocodeLocation(location) { placemarks, error in
@@ -148,10 +152,14 @@ extension LocationController: UITableViewDelegate {
         
         self.searchController.searchBar.resignFirstResponder()
         let mapItem = dataSource.object(at: indexPath)
+        print(mapItem)
         let coordinate = Coordinate(latitude: mapItem.placemark.coordinate.latitude, longitude: mapItem.placemark.coordinate.longitude)
         self.mapView.removeAnnotations(self.mapView.annotations)
         self.mapView.removeOverlays(self.mapView.overlays)
+        self.needGeocoding = false
         self.coordinate = coordinate
+        let address = Address(number: mapItem.placemark.subThoroughfare, street: mapItem.placemark.thoroughfare, postalCode: mapItem.placemark.postalCode, locality: mapItem.placemark.locality, country: mapItem.placemark.country, name: mapItem.placemark.name, coordinate: coordinate)
+        self.locationDescription = address.simpleAddress()
         self.adjustMap(with: coordinate)
     }
     
