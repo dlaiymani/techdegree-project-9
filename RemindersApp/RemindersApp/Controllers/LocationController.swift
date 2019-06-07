@@ -25,7 +25,8 @@ class LocationController: UIViewController {
     let searchController = UISearchController(searchResultsController: nil)
     
     let dataSource = SearchAddressResultsDataSource()
-    
+    var request = MKLocalSearch.Request()
+    var search: MKLocalSearch?
     
     // Find an address from coordinates
     var geocoder = CLGeocoder()
@@ -218,58 +219,23 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
         guard let searchTerm = searchController.searchBar.text else { return }
 
         if !searchTerm.isEmpty {
-            let request = MKLocalSearch.Request()
+            
+            search?.cancel()
             request.naturalLanguageQuery = searchTerm
             request.region = self.mapView.region
             
-            searchCompleter.queryFragment = searchTerm
+            search = MKLocalSearch(request: request)
             
-            let search = MKLocalSearch(request: request)
-            search.start { (responses, error) in
-                print(error)
+            search!.start { (responses, error) in
                 if let responses = responses {
                     DispatchQueue.main.async {
                         self.dataSource.update(with: responses.mapItems)
                         self.tableView.reloadData()
                     }
-                  //  self.processResponse(withMapItems: responses.mapItems , error: error)
                 }
             }
-            
-
-
-//            geocoder.geocodeAddressString(searchTerm) { (placemarks, error) in
-//                // Process Response
-//                self.processResponse(withPlacemarks: placemarks, error: error)
-//            }
-            
-           // dataSource.fetchResultsController = NoteFetchResultsController(fetchRequest: Note.fetchRequestWithText(searchTerm), managedObjectContext: managedObjectContext, tableView: self.tableView)
-          //  self.tableView.reloadData()
         }
     }
-    
-    
-    private func processResponse(withMapItems mapItems: [MKMapItem], error: Error?) {
-        // Update View
-        if let error = error {
-            print("Unable to Forward Geocode Address (\(error))")
-            
-        } else {
-            print(mapItems.count)
-            self.dataSource.update(with: mapItems)
-            self.tableView.reloadData()
-            
-
-            
-//            if let location = location {
-//                let coordinate = location.coordinate
-//              //  locationLabel.text = "\(coordinate.latitude), \(coordinate.longitude)"
-//            } else {
-//               // locationLabel.text = "No Matching Location Found"
-//            }
-        }
-    }
-    
 }
 
 
