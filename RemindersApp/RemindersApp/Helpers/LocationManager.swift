@@ -110,6 +110,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         let coordinate = Coordinate(location: location)
         delegate?.obtainedCoordinates(coordinate)
+        manager.stopUpdatingLocation()
+
     }
     
     // MARK: - Geofencing

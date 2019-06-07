@@ -18,6 +18,8 @@ class DetailController: UITableViewController {
     @IBOutlet weak var recurrenceSegmentedControl: UISegmentedControl!
     @IBOutlet weak var geofenceSwitch: UISwitch!
     
+    @IBOutlet var tapOnView: UITapGestureRecognizer!
+    
     var staticLocationLabel: UILabel!
     var locationLabel: UILabel!
     var cell: UITableViewCell!
@@ -44,6 +46,8 @@ class DetailController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.reloadData()
+        titleTextField.delegate = self
+        notesTextView.delegate = self
         
         if let reminder = reminder {
             titleTextField.text = reminder.title
@@ -123,6 +127,12 @@ class DetailController: UITableViewController {
         }
     }
     
+    // Dismiss UITextview keyboard
+    
+    @IBAction func dismissKeyboard(_ sender: Any) {
+        print("yo")
+        notesTextView.resignFirstResponder()
+    }
     
     @IBAction func cancelTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -206,4 +216,15 @@ class DetailController: UITableViewController {
 }
 
 
-
+extension DetailController: UITextFieldDelegate, UITextViewDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.titleTextField.resignFirstResponder()
+        return true
+    }
+    
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        self.notesTextView.resignFirstResponder()
+        return true
+    }
+}

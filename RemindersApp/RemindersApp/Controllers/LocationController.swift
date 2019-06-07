@@ -26,6 +26,7 @@ class LocationController: UIViewController {
     
     let dataSource = SearchAddressResultsDataSource()
     
+    
     // Find an address from coordinates
     var geocoder = CLGeocoder()
     var coordinate: Coordinate? { // When coordinates are set the perform geocoding
@@ -37,7 +38,7 @@ class LocationController: UIViewController {
                         let alertError = AlertError(error: .unableToFindLocation, on: self)
                     } else {
                         if let placemarks = placemarks, let placemark = placemarks.first, let name = placemark.name, let locality = placemark.locality, let adminArea = placemark.administrativeArea {
-                            self.locationDescription = "\(name), \(locality), \(adminArea)"
+                            self.locationDescription = "\(name), \(locality)"
                         } else {
                             print("No matching address found")
                         }
@@ -86,13 +87,14 @@ class LocationController: UIViewController {
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchResultsUpdater = self
         navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.placeholder = "Search for places"
         self.navigationItem.searchController = searchController
     }
     
     // Check permission or request the current location
     override func viewDidAppear(_ animated: Bool) {
         if isAuthorized {
-            locationManager.requestLocation()
+        //    locationManager.requestLocation()
         } else {
             checkPermissions()
         }
@@ -144,13 +146,13 @@ extension LocationController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let address = dataSource.object(at: indexPath)
-        if let coordinate = address.coordinate {
-            self.mapView.removeAnnotations(self.mapView.annotations)
-            self.mapView.removeOverlays(self.mapView.overlays)
-            self.adjustMap(with: coordinate)
-            self.coordinate = coordinate
-        }
+        self.searchController.searchBar.resignFirstResponder()
+        let mapItem = dataSource.object(at: indexPath)
+        let coordinate = Coordinate(latitude: mapItem.placemark.coordinate.latitude, longitude: mapItem.placemark.coordinate.longitude)
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        self.mapView.removeOverlays(self.mapView.overlays)
+        self.coordinate = coordinate
+        self.adjustMap(with: coordinate)
     }
     
 }
@@ -159,6 +161,7 @@ extension LocationController: UITableViewDelegate {
 // MARK: - Location Manager Delegate
 extension LocationController: LocationManagerDelegate {
     func obtainedCoordinates(_ coordinate: Coordinate) {
+        print("yo")
         self.coordinate = coordinate
         adjustMap(with: coordinate)
     }
@@ -178,6 +181,7 @@ extension LocationController {
         let coordinate2D = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         let region = MKCoordinateRegion.init(center: coordinate2D, latitudinalMeters: 500, longitudinalMeters: 500)
         
+        mapView.removeOverlays(mapView.overlays)
         mapView.setRegion(region, animated: true)
         let myAnnotation: MKPointAnnotation = MKPointAnnotation()
         myAnnotation.coordinate = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude);
@@ -214,15 +218,21 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
         guard let searchTerm = searchController.searchBar.text else { return }
 
         if !searchTerm.isEmpty {
-            
             let request = MKLocalSearch.Request()
             request.naturalLanguageQuery = searchTerm
             request.region = self.mapView.region
             
+            searchCompleter.queryFragment = searchTerm
+            
             let search = MKLocalSearch(request: request)
             search.start { (responses, error) in
+                print(error)
                 if let responses = responses {
-                    self.processResponse(withMapItems: responses.mapItems , error: error)
+                    DispatchQueue.main.async {
+                        self.dataSource.update(with: responses.mapItems)
+                        self.tableView.reloadData()
+                    }
+                  //  self.processResponse(withMapItems: responses.mapItems , error: error)
                 }
             }
             
@@ -246,17 +256,8 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
             
         } else {
             print(mapItems.count)
-            var addresses = [Address]()
-            for mapItem in mapItems {
-                let coordinate = Coordinate(latitude: mapItem.placemark.coordinate.latitude, longitude: mapItem.placemark.coordinate.longitude)
-                var address = Address(number: mapItem.placemark.subThoroughfare, street: mapItem.placemark.thoroughfare, postalCode: mapItem.placemark.postalCode, locality: mapItem.placemark.locality, country: mapItem.placemark.country, name: mapItem.placemark.name, coordinate: coordinate)
-                addresses.append(address)
-            }
-            
-            DispatchQueue.main.async {
-                self.dataSource.update(with: addresses)
-                self.tableView.reloadData()
-            }
+            self.dataSource.update(with: mapItems)
+            self.tableView.reloadData()
             
 
             
@@ -270,6 +271,7 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
     }
     
 }
+
 
 
 // SearchBar delegate

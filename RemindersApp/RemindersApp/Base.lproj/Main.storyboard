@@ -200,6 +200,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <gestureRecognizers/>
                         <sections>
                             <tableViewSection headerTitle="" id="lrE-wg-9gM">
                                 <cells>
@@ -323,6 +324,7 @@
                         <connections>
                             <outlet property="dataSource" destination="bYY-Uk-tyP" id="nRr-PZ-5so"/>
                             <outlet property="delegate" destination="bYY-Uk-tyP" id="KHH-41-Uox"/>
+                            <outletCollection property="gestureRecognizers" destination="1yy-FB-XMQ" appends="YES" id="BUu-eB-wbf"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="iad-iF-wHb">
@@ -341,10 +343,16 @@
                         <outlet property="geofenceSwitch" destination="jlf-ak-flo" id="rY5-FC-cUi"/>
                         <outlet property="notesTextView" destination="dGf-fy-e5T" id="Qqq-a2-flA"/>
                         <outlet property="recurrenceSegmentedControl" destination="kSw-TU-C47" id="0lv-qG-ROc"/>
+                        <outlet property="tapOnView" destination="1yy-FB-XMQ" id="nN3-aw-Xlq"/>
                         <outlet property="titleTextField" destination="BPi-67-dNT" id="Aip-mG-OVq"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PIf-aE-Rj4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer cancelsTouchesInView="NO" id="1yy-FB-XMQ">
+                    <connections>
+                        <action selector="dismissKeyboard:" destination="bYY-Uk-tyP" id="OUS-It-eBT"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2465" y="119"/>
         </scene>

@@ -8,11 +8,12 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 
 class SearchAddressResultsDataSource: NSObject, UITableViewDataSource {
     
-    private var data = [Address]()
+    private var data = [MKMapItem]()
     
     override init() {
         super.init()
@@ -30,7 +31,11 @@ class SearchAddressResultsDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "addressCell", for: indexPath)
         
-        let address = object(at: indexPath)
+        let mapItem = object(at: indexPath)
+        
+        let coordinate = Coordinate(latitude: mapItem.placemark.coordinate.latitude, longitude: mapItem.placemark.coordinate.longitude)
+        let address = Address(number: mapItem.placemark.subThoroughfare, street: mapItem.placemark.thoroughfare, postalCode: mapItem.placemark.postalCode, locality: mapItem.placemark.locality, country: mapItem.placemark.country, name: mapItem.placemark.name, coordinate: coordinate)
+        
         cell.textLabel?.text = address.addressString()
         cell.detailTextLabel?.text = address.completeAddressString()
         
@@ -46,15 +51,15 @@ class SearchAddressResultsDataSource: NSObject, UITableViewDataSource {
     
     // MARK: Helpers
     
-    func object(at indexPath: IndexPath) -> Address {
+    func object(at indexPath: IndexPath) -> MKMapItem {
         return data[indexPath.row]
     }
     
-    func update(with data: [Address]) {
+    func update(with data: [MKMapItem]) {
         self.data = data
     }
     
-    func update(_ object: Address, at indexPath: IndexPath) {
+    func update(_ object: MKMapItem, at indexPath: IndexPath) {
         data[indexPath.row] = object
     }
     
