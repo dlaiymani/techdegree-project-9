@@ -97,12 +97,6 @@ class LocationController: UIViewController {
         self.navigationItem.searchController = searchController
     }
     
-    // Check permission or request the current location
-    override func viewDidAppear(_ animated: Bool) {
-        if !isAuthorized {
-        //    checkPermissions()
-        }
-    }
     
     func checkPermissions() {
         guard let locationManager = locationManager else { return }
