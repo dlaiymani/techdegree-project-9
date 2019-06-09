@@ -168,6 +168,7 @@ extension LocationController: UITableViewDelegate {
 extension LocationController: LocationManagerDelegate {
     func obtainedCoordinates(_ coordinate: Coordinate) {
         self.coordinate = coordinate
+        mapView.removeOverlays(mapView.overlays)
         adjustMap(with: coordinate)
     }
     

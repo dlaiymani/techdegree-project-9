@@ -110,12 +110,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             delegate?.failedWithError(.unableToFindLocation)
             return
         }
-        print("req loc")
 
         let coordinate = Coordinate(location: location)
         delegate?.obtainedCoordinates(coordinate)
-        print(coordinate.latitude)
-        print(coordinate.longitude)
     }
     
     // MARK: - Geofencing
