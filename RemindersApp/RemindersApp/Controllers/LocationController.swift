@@ -28,6 +28,7 @@ class LocationController: UIViewController {
     var search: MKLocalSearch?
     
     var needGeocoding = true
+    var needCurrentLocation = false
     
     // Find an address from coordinates
     var geocoder = CLGeocoder()
@@ -118,10 +119,10 @@ class LocationController: UIViewController {
     
     @IBAction func getCurrentLocation(_ sender: UIButton) {
         guard let locationManager = locationManager else { return }
+        needCurrentLocation = true
         if isAuthorized {
             if let coordinate = coordinate {
                 locationManager.requestLocation()
-                adjustMap(with: coordinate)
             }
         } else {
             checkPermissions()
@@ -170,9 +171,13 @@ extension LocationController: UITableViewDelegate {
 // MARK: - Location Manager Delegate
 extension LocationController: LocationManagerDelegate {
     func obtainedCoordinates(_ coordinate: Coordinate) {
-        self.coordinate = coordinate
-       // mapView.removeOverlays(mapView.overlays)
-      //  adjustMap(with: coordinate)
+        
+        mapView.removeOverlays(mapView.overlays)
+        if needCurrentLocation {
+            self.coordinate = coordinate
+            adjustMap(with: coordinate)
+            needCurrentLocation = false
+        }
     }
     
     func failedWithError(_ error: LocationError) {
