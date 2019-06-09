@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 import MapKit
 
-
+// This class is the data source for the searchbar in the location controller
+// It allows to display the location results searched by the user
 class SearchAddressResultsDataSource: NSObject, UITableViewDataSource {
     
     private var data = [MKMapItem]()
@@ -45,7 +46,7 @@ class SearchAddressResultsDataSource: NSObject, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case 0: return "Locality"
+        case 0: return "Localities"
         default: return nil
         }
     }

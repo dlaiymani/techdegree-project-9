@@ -52,7 +52,7 @@ class DataSource: NSObject, UITableViewDataSource {
         return configureCell(cell, at: indexPath)
     }
     
-    // Deleting a row i.e. a Note
+    // Deleting a row i.e. a reminder
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         let reminder = fetchResultsController.object(at: indexPath)
@@ -61,7 +61,7 @@ class DataSource: NSObject, UITableViewDataSource {
         tableView.reloadData()
     }
     
-    // Display a note in a cell
+    // Display a reminder in a cell
     private func configureCell(_ cell: ReminderCell, at indexPath: IndexPath) -> ReminderCell {
         let reminder = fetchResultsController.object(at: indexPath)
         
@@ -74,7 +74,7 @@ class DataSource: NSObject, UITableViewDataSource {
     
     // MARK: - Helpers
     
-    // Returns the Note at a given IndexPath
+    // Returns the reminder at a given IndexPath
     func object(at indexPath: IndexPath) -> Reminder {
         return fetchResultsController.object(at: indexPath)
     }

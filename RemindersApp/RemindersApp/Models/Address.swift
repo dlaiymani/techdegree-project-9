@@ -34,18 +34,11 @@ class Address {
         if self.name != nil {
             addressString += "\(self.name!) "
         }
-//        if self.number != nil {
-//            addressString += "\(self.number!) "
-//        }
-        
-//        if self.street != nil {
-//            addressString += "\(self.street!)"
-//        }
         
         return addressString
     }
     
-    func simpleAddress() -> String {
+    func simpleAddressString() -> String {
         var addressString = ""
         if self.number != nil {
             addressString += "\(self.number!) "

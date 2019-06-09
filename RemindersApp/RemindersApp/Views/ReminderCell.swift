@@ -8,6 +8,7 @@
 
 import UIKit
 
+// The Master View cell
 class ReminderCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
