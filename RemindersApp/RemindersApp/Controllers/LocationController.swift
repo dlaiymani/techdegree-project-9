@@ -119,7 +119,10 @@ class LocationController: UIViewController {
     @IBAction func getCurrentLocation(_ sender: UIButton) {
         guard let locationManager = locationManager else { return }
         if isAuthorized {
-            locationManager.requestLocation()
+            if let coordinate = coordinate {
+                locationManager.requestLocation()
+                adjustMap(with: coordinate)
+            }
         } else {
             checkPermissions()
         }
@@ -168,8 +171,8 @@ extension LocationController: UITableViewDelegate {
 extension LocationController: LocationManagerDelegate {
     func obtainedCoordinates(_ coordinate: Coordinate) {
         self.coordinate = coordinate
-        mapView.removeOverlays(mapView.overlays)
-        adjustMap(with: coordinate)
+       // mapView.removeOverlays(mapView.overlays)
+      //  adjustMap(with: coordinate)
     }
     
     func failedWithError(_ error: LocationError) {
