@@ -72,6 +72,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // Function which initiates the location process
     func requestLocation() {
+        print("req loc")
+        manager.stopUpdatingLocation()
         manager.startUpdatingLocation()
     }
     
@@ -105,11 +107,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
         guard let location = locations.last else {
-            print("requestloc")
-
             delegate?.failedWithError(.unableToFindLocation)
             return
         }
+        print("req loc")
+
         let coordinate = Coordinate(location: location)
         delegate?.obtainedCoordinates(coordinate)
         print(coordinate.latitude)

@@ -47,12 +47,6 @@ class DetailController: UITableViewController {
     // Check location authorization
     var isAuthorized: Bool = false
     
-//    {
-//        let isAuthorizedForLocation = LocationManager.isAuthorized
-//        return isAuthorizedForLocation
-//    }
-    
-    
     override func viewDidAppear(_ animated: Bool) {
         let isAuthorized = LocationManager.isAuthorized
         
