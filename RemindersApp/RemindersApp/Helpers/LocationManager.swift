@@ -91,7 +91,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             delegate?.failedWithError(.unknownError)
             return
         }
-        
         switch error.code {
         case .locationUnknown, .network:
             delegate?.failedWithError(.unableToFindLocation)
@@ -104,7 +103,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // Location has changed so get the new coordinates
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
         guard let location = locations.last else {
+            print("requestloc")
+
             delegate?.failedWithError(.unableToFindLocation)
             return
         }
@@ -112,8 +114,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         delegate?.obtainedCoordinates(coordinate)
         print(coordinate.latitude)
         print(coordinate.longitude)
-     //   manager.stopUpdatingLocation()
-
     }
     
     // MARK: - Geofencing

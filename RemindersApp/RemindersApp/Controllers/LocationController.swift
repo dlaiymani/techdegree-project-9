@@ -18,10 +18,6 @@ class LocationController: UIViewController {
     
     var locationManager: LocationManager?
     
-//    lazy var locationManager: LocationManager = {
-//        return LocationManager(delegate: self, permissionsDelegate: nil)
-//    }()
-    
     var locationDescription = ""
     var eventType = false
     
@@ -38,10 +34,9 @@ class LocationController: UIViewController {
     var coordinate: Coordinate? { // When coordinates are set perform geocoding
         didSet {
             guard needGeocoding else { needGeocoding = true; return }
-            print("go")
-
             if let coordinate = coordinate {
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                geocoder.cancelGeocode()
                 geocoder.reverseGeocodeLocation(location) { placemarks, error in
                     if error != nil {
                         _ = AlertError(error: .unableToFindLocation, on: self)
@@ -50,6 +45,7 @@ class LocationController: UIViewController {
                             self.locationDescription = "\(name), \(locality)"
                             print(self.locationDescription)
                         } else {
+                            self.locationDescription = "No matching address found"
                             print("No matching address found")
                         }
                     }
@@ -57,7 +53,6 @@ class LocationController: UIViewController {
             }
         }
     }
-    
     
     // Check location authorization
     var isAuthorized: Bool {
@@ -75,7 +70,6 @@ class LocationController: UIViewController {
             locationManager.delegate = self
         }
         
-        
         setupSearchBar()
         searchController.searchBar.delegate = self
         searchController.searchBar.tintColor = .black
@@ -90,9 +84,7 @@ class LocationController: UIViewController {
             alertingSegmentedControl.selectedSegmentIndex = 0
         } else {
             alertingSegmentedControl.selectedSegmentIndex = 1
-
         }
-        
     }
     
     func setupSearchBar() {
@@ -147,7 +139,6 @@ class LocationController: UIViewController {
                 } else {
                     detailViewController.eventType = true
                 }
-              //  detailViewController.locationManager = self.locationManager
             }
         }
     }

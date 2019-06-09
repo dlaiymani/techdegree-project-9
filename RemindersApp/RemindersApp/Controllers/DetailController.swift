@@ -118,7 +118,6 @@ class DetailController: UITableViewController {
             geofenceSwitch.isOn = false
             
         } else {
-            print(locationDescription)
             locationLabel.text = locationDescription
             locationLabel.isHidden = false
             
@@ -192,10 +191,6 @@ class DetailController: UITableViewController {
             locationManager.stopMonitoring(reminder: reminder)
         }
         
-//        if let locationManager = locationManager {
-//            locationManager.startMonitoring(reminder: reminder)
-//        }
-        
         managedObjectContext.saveChanges()
         dismiss(animated: true, completion: nil)
     }
@@ -231,6 +226,7 @@ class DetailController: UITableViewController {
         let locationController = segue.destination as! LocationController
         print(self.locationManager)
         locationController.locationManager = self.locationManager
+        locationController.needGeocoding = true
         locationController.coordinate = coordinate
         locationController.eventType = eventType
     }
