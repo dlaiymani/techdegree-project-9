@@ -18,10 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let locationManager = CLLocationManager()
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+        // Set up the notfiactions
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
@@ -32,10 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("Error: \(error)")
                 }
         }
-        
         return true
     }
 
+    // Set a geofencing notification
     func handleEvent(for region: CLRegion!, when event: String) {
         let fetchResultController = LocationFetchResultsController(fetchRequest: Reminder.fetchRequestWithText(region.identifier), managedObjectContext: self.managedObjectContext)
         
@@ -87,11 +86,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 
-
+// Detect when the user enter or exit a region
 extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {

@@ -16,9 +16,11 @@ class LocationController: UIViewController {
     @IBOutlet weak var alertingSegmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     
-    lazy var locationManager: LocationManager = {
-        return LocationManager(delegate: self, permissionsDelegate: nil)
-    }()
+    var locationManager: LocationManager?
+    
+//    lazy var locationManager: LocationManager = {
+//        return LocationManager(delegate: self, permissionsDelegate: nil)
+//    }()
     
     var locationDescription = ""
     var eventType = false
@@ -36,7 +38,8 @@ class LocationController: UIViewController {
     var coordinate: Coordinate? { // When coordinates are set perform geocoding
         didSet {
             guard needGeocoding else { needGeocoding = true; return }
-            
+            print("go")
+
             if let coordinate = coordinate {
                 let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
                 geocoder.reverseGeocodeLocation(location) { placemarks, error in
@@ -45,6 +48,7 @@ class LocationController: UIViewController {
                     } else {
                         if let placemarks = placemarks, let placemark = placemarks.first, let name = placemark.name, let locality = placemark.locality, let _ = placemark.administrativeArea {
                             self.locationDescription = "\(name), \(locality)"
+                            print(self.locationDescription)
                         } else {
                             print("No matching address found")
                         }
@@ -66,6 +70,10 @@ class LocationController: UIViewController {
         mapView.delegate = self
         self.tableView.dataSource = dataSource
         self.tableView.delegate = self
+        
+        if let locationManager = locationManager {
+            locationManager.delegate = self
+        }
         
         
         setupSearchBar()
@@ -100,11 +108,12 @@ class LocationController: UIViewController {
     // Check permission or request the current location
     override func viewDidAppear(_ animated: Bool) {
         if !isAuthorized {
-            checkPermissions()
+        //    checkPermissions()
         }
     }
     
     func checkPermissions() {
+        guard let locationManager = locationManager else { return }
         do {
             try locationManager.requestLocationAuthorization()
         } catch LocationError.disallowedByUser {
@@ -116,6 +125,7 @@ class LocationController: UIViewController {
     
     
     @IBAction func getCurrentLocation(_ sender: UIButton) {
+        guard let locationManager = locationManager else { return }
         if isAuthorized {
             locationManager.requestLocation()
         } else {
@@ -137,7 +147,7 @@ class LocationController: UIViewController {
                 } else {
                     detailViewController.eventType = true
                 }
-                detailViewController.locationManager = self.locationManager
+              //  detailViewController.locationManager = self.locationManager
             }
         }
     }
@@ -193,8 +203,6 @@ extension LocationController {
         mapView?.addOverlay(MKCircle(center: coordinate2D, radius: CLLocationDistance(exactly: 50.0)!))
         
     }
-    
-
 }
 
 // MARK: - MapView Delegate

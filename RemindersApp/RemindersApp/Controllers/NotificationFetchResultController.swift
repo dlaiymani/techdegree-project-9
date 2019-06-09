@@ -8,12 +8,12 @@
 
 import CoreData
 
+// Get the Reminder info when a notification is sent
 class LocationFetchResultsController: NSFetchedResultsController<Reminder> {
     
     init(fetchRequest: NSFetchRequest<Reminder>, managedObjectContext: NSManagedObjectContext) {
         
         super.init(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
         
         tryFetch()
     }
