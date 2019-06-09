@@ -11,8 +11,10 @@ import Foundation
 import CoreData
 
 
+// The reminder type
 extension Reminder {
 
+    // Fetch all the reminders
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Reminder> {
         let request = NSFetchRequest<Reminder>(entityName: "Reminder")
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
@@ -21,6 +23,7 @@ extension Reminder {
     }
     
     
+    // Fetch the reminders with a given title
     @nonobjc  class func fetchRequestWithText(_ title: String) -> NSFetchRequest<Reminder> {
         
         let request = NSFetchRequest<Reminder>(entityName: "Reminder")
@@ -38,7 +41,5 @@ extension Reminder {
     @NSManaged public var longitude: Double
     @NSManaged public var notes: String?
     @NSManaged public var eventType: Bool
-
-
 
 }
