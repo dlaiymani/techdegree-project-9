@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 
+// The Master Controler Class
 class MasterController: UITableViewController {
     
     let managedObjectContext = CoreDataStack().managedObjectContext
@@ -34,15 +35,12 @@ class MasterController: UITableViewController {
     
     
     // MARK: - UITableViewDelegate
-    
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
 
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddReminder" { // New reminder button tapped
             
