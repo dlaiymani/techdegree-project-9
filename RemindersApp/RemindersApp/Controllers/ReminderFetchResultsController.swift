@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
+// Fetching the reminders in a TableView
 class ReminderFetchResultsController: NSFetchedResultsController<Reminder>, NSFetchedResultsControllerDelegate {
     
     private let tableView: UITableView

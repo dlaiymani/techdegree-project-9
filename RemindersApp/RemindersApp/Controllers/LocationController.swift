@@ -9,6 +9,7 @@
 import Foundation
 import MapKit
 
+// The Location Controller class
 class LocationController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
@@ -76,6 +77,7 @@ class LocationController: UIViewController {
             }
         }
         
+        // eventType = true -> Arriving
         if eventType == false {
             alertingSegmentedControl.selectedSegmentIndex = 0
         } else {
@@ -86,7 +88,6 @@ class LocationController: UIViewController {
     }
     
     func setupSearchBar() {
-       
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
@@ -98,9 +99,7 @@ class LocationController: UIViewController {
     
     // Check permission or request the current location
     override func viewDidAppear(_ animated: Bool) {
-        if isAuthorized {
-        //    locationManager.requestLocation()
-        } else {
+        if !isAuthorized {
             checkPermissions()
         }
     }
@@ -149,7 +148,6 @@ class LocationController: UIViewController {
 extension LocationController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         self.searchController.searchBar.resignFirstResponder()
         let mapItem = dataSource.object(at: indexPath)
         print(mapItem)
@@ -159,10 +157,9 @@ extension LocationController: UITableViewDelegate {
         self.needGeocoding = false
         self.coordinate = coordinate
         let address = Address(number: mapItem.placemark.subThoroughfare, street: mapItem.placemark.thoroughfare, postalCode: mapItem.placemark.postalCode, locality: mapItem.placemark.locality, country: mapItem.placemark.country, name: mapItem.placemark.name, coordinate: coordinate)
-        self.locationDescription = address.simpleAddress()
+        self.locationDescription = address.simpleAddressString()
         self.adjustMap(with: coordinate)
     }
-    
 }
 
 
@@ -217,15 +214,13 @@ extension LocationController: MKMapViewDelegate {
 
 
 // MARK: SearchController management
-
 extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
-    // When the search controller is activated i.e. the user enters a text,
-    // we change the fetchResultController to retreive the corresponding notes
+    
+    // Display the results return by a MKLocalSearch request
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchTerm = searchController.searchBar.text else { return }
 
         if !searchTerm.isEmpty {
-            
             search?.cancel()
             request.naturalLanguageQuery = searchTerm
             request.region = self.mapView.region
@@ -245,7 +240,6 @@ extension LocationController: UISearchResultsUpdating, UITextFieldDelegate {
 }
 
 
-
 // SearchBar delegate
 extension LocationController: UISearchBarDelegate {
     
@@ -261,7 +255,6 @@ extension LocationController: UISearchBarDelegate {
     
     // Cross button tapped
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-       
         if searchText == "" {
             dataSource.update(with: [])
             tableView.reloadData()

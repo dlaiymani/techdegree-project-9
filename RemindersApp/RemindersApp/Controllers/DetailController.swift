@@ -128,7 +128,7 @@ class DetailController: UITableViewController {
         }
     }
     
-    // Dismiss UITextview keyboard
+    // Dismiss the keyboard
     @IBAction func dismissKeyboard(_ sender: Any) {
         notesTextView.resignFirstResponder()
         titleTextField.resignFirstResponder()
