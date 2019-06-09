@@ -15,15 +15,17 @@ class DataSource: NSObject, UITableViewDataSource {
     
     private let tableView: UITableView
     private let context: NSManagedObjectContext // CoreData context
+    private let locationManager: LocationManager?
     
     // CoreData fetch controller
     lazy var fetchResultsController: ReminderFetchResultsController = {
         return ReminderFetchResultsController(fetchRequest: Reminder.fetchRequest(), managedObjectContext: self.context, tableView: self.tableView)
     }()
     
-    init(tableView: UITableView, context: NSManagedObjectContext) {
+    init(tableView: UITableView, context: NSManagedObjectContext, locationManager: LocationManager) {
         self.tableView = tableView
         self.context = context
+        self.locationManager = locationManager
     }
     
     
@@ -57,6 +59,7 @@ class DataSource: NSObject, UITableViewDataSource {
         
         let reminder = fetchResultsController.object(at: indexPath)
         context.delete(reminder)
+        locationManager?.stopMonitoring(reminder: reminder)
         context.saveChanges()
         tableView.reloadData()
     }

@@ -41,6 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Show an alert if application is active
         if UIApplication.shared.applicationState == .active {
             guard let message = fetchResultController.object(at: IndexPath(row: 0, section: 0)).title else { return }
+            
+            let rootNav = window?.rootViewController as! UINavigationController
+            let masterNav = rootNav.topViewController as! MasterController
+            masterNav.nextViewController?.showAlert(withTitle: nil, message: "\(event): \(message)")
             window?.rootViewController?.showAlert(withTitle: nil, message: "\(event): \(message)")
         } else {
             // Otherwise present a local notification
@@ -57,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let error = error {
                     print("Error: \(error)")
                 }
-            }
+           }
         }
     }
     

@@ -40,20 +40,13 @@ class DetailController: UITableViewController {
     
     var reminder: Reminder? // The reminder to create or update
     
-    lazy var locationManager: LocationManager = {
-        return LocationManager(delegate: self, permissionsDelegate: nil)
-    }()
+    var locationManager: LocationManager?
     
     // Check location authorization
-    var isAuthorized: Bool = false
+   // var isAuthorized: Bool = false
     
     override func viewWillAppear(_ animated: Bool) {
         configureView()
-        let isAuthorized = LocationManager.isAuthorized
-        
-        if !isAuthorized {
-            checkPermissions()
-        }
     }
     
     override func viewDidLoad() {
@@ -138,15 +131,15 @@ class DetailController: UITableViewController {
         }
     }
     
-    func checkPermissions() {
-        do {
-            try locationManager.requestLocationAuthorization()
-        } catch LocationError.disallowedByUser {
-            self.showAlert(withTitle: "ReminderApp needs your location data", message: "Please, see your settings configuration")
-        } catch let error {
-            print("Location Authorization error \(error.localizedDescription)")
-        }
-    }
+//    func checkPermissions() {
+//        do {
+//            try locationManager?.requestLocationAuthorization()
+//        } catch LocationError.disallowedByUser {
+//            self.showAlert(withTitle: "ReminderApp needs your location data", message: "Please, see your settings configuration")
+//        } catch let error {
+//            print("Location Authorization error \(error.localizedDescription)")
+//        }
+//    }
     
     // Dismiss the keyboard
     @IBAction func dismissKeyboard(_ sender: Any) {
@@ -181,9 +174,9 @@ class DetailController: UITableViewController {
         reminder.locationDescription = locationDescription
         reminder.eventType = eventType
         if geofenceSwitch.isOn {
-            locationManager.startMonitoring(reminder: reminder)
+            locationManager?.startMonitoring(reminder: reminder)
         } else {
-            locationManager.stopMonitoring(reminder: reminder)
+            locationManager?.stopMonitoring(reminder: reminder)
         }
         
         managedObjectContext.saveChanges()
@@ -219,7 +212,6 @@ class DetailController: UITableViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let locationController = segue.destination as! LocationController
-        print(self.locationManager)
         locationController.locationManager = self.locationManager
         locationController.needGeocoding = true
         locationController.coordinate = coordinate
@@ -247,11 +239,9 @@ extension DetailController: UITextFieldDelegate, UITextViewDelegate {
 extension DetailController: LocationManagerDelegate {
     func obtainedCoordinates(_ coordinate: Coordinate) {
         self.coordinate = coordinate
-       // adjustMap(with: coordinate)
     }
     
     func failedWithError(_ error: LocationError) {
-      //  mapView.isHidden = true
         let alertError = AlertError(error: error, on: self)
         alertError.displayAlert()
     }
