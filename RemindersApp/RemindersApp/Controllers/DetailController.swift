@@ -42,9 +42,6 @@ class DetailController: UITableViewController {
     
     var locationManager: LocationManager?
     
-    // Check location authorization
-   // var isAuthorized: Bool = false
-    
     override func viewWillAppear(_ animated: Bool) {
         configureView()
     }
@@ -130,16 +127,6 @@ class DetailController: UITableViewController {
             configureView()
         }
     }
-    
-//    func checkPermissions() {
-//        do {
-//            try locationManager?.requestLocationAuthorization()
-//        } catch LocationError.disallowedByUser {
-//            self.showAlert(withTitle: "ReminderApp needs your location data", message: "Please, see your settings configuration")
-//        } catch let error {
-//            print("Location Authorization error \(error.localizedDescription)")
-//        }
-//    }
     
     // Dismiss the keyboard
     @IBAction func dismissKeyboard(_ sender: Any) {

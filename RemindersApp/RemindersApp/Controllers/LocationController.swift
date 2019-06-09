@@ -44,7 +44,6 @@ class LocationController: UIViewController {
                     } else {
                         if let placemarks = placemarks, let placemark = placemarks.first, let name = placemark.name, let locality = placemark.locality, let _ = placemark.administrativeArea {
                             self.locationDescription = "\(name), \(locality)"
-                            print(self.locationDescription)
                         } else {
                             self.locationDescription = "No matching address found"
                             print("No matching address found")
@@ -121,7 +120,7 @@ class LocationController: UIViewController {
         guard let locationManager = locationManager else { return }
         needCurrentLocation = true
         if isAuthorized {
-            if let coordinate = coordinate {
+            if coordinate != nil {
                 locationManager.requestLocation()
             }
         } else {
@@ -155,7 +154,6 @@ extension LocationController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.searchController.searchBar.resignFirstResponder()
         let mapItem = dataSource.object(at: indexPath)
-        print(mapItem)
         let coordinate = Coordinate(latitude: mapItem.placemark.coordinate.latitude, longitude: mapItem.placemark.coordinate.longitude)
         self.mapView.removeAnnotations(self.mapView.annotations)
         self.mapView.removeOverlays(self.mapView.overlays)
